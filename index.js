@@ -4,6 +4,8 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const path = require("path");
 
+const projectRoutes = require("./routes/projects");
+
 require("dotenv").config({ quiet: true });
 
 mongoose
@@ -25,6 +27,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
+
+app.use("/projects", projectRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
