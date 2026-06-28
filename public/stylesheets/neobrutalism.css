@@ -1,0 +1,16 @@
+@theme {
+  --color-neo-bg: #f4f4f0;
+  --color-neo-surface: #ffffff;
+  --color-neo-ink: #1a1a1a;
+  --color-neo-ink-light: #525252;
+  --color-neo-primary: #2563eb;
+  --color-neo-primary-hover: #1d4ed8;
+  --color-neo-success: #dcfce7;
+  --color-neo-warning: #fef08a;
+  --color-neo-danger: #fee2e2;
+
+  --shadow-neo: 4px 4px 0px 0px var(--color-neo-ink);
+  --shadow-neo-sm: 2px 2px 0px 0px var(--color-neo-ink);
+  --shadow-neo-lg: 6px 6px 0px 0px var(--color-neo-ink);
+  --shadow-neo-none: 0px 0px 0px 0px var(--color-neo-ink);
+}

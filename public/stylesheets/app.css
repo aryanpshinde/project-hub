@@ -297,6 +297,7 @@
     --color-default: var(--color-gray-200);
     --color-default-medium: var(--color-gray-200);
     --color-dark-backdrop: var(--color-gray-950);
+    --color-neo-ink: #1a1a1a;
   }
 }
 @layer base {
