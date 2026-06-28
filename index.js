@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const path = require("path");
+const ExpressError = require("./utils/ExpressError");
 
 const projectRoutes = require("./routes/projects");
 
@@ -32,6 +33,26 @@ app.use("/projects", projectRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
+});
+
+app.all("/{*path}", (req, res, next) => {
+  next(new ExpressError("Page Not Found", 404));
+});
+
+app.use((err, req, res, next) => {
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Oh, no something went wrong";
+
+  if (err.name === "CastError") {
+    statusCode = 404;
+    message = "Page Not Found";
+  }
+  const safeErr = {
+    statusCode,
+    message,
+    stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
+  };
+  res.status(statusCode).render("error", { err: safeErr });
 });
 
 const port = process.env.PORT;

@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate') %>
+
+<section class="flex items-center justify-center min-h-[70vh] p-4 w-full">
+  <div
+    class="w-full max-w-2xl bg-neutral-primary-soft p-8 text-center border border-default rounded-base shadow-xs"
+  >
+    <h1 class="mb-4 text-7xl font-extrabold text-fg-brand">
+      <%= err.statusCode %>
+    </h1>
+
+    <p class="mb-6 text-2xl font-semibold text-heading"><%= err.message %></p>
+
+    <% if (err.stack) { %>
+    <div
+      class="mt-6 mb-8 p-4 text-left overflow-x-auto bg-neutral-secondary-soft border border-default rounded-base shadow-inner w-full"
+    >
+      <pre class="text-sm text-body whitespace-pre-wrap break-all font-mono">
+<%= err.stack %></pre
+      >
+    </div>
+    <% } %>
+
+    <a
+      href="/projects"
+      class="inline-flex items-center justify-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-6 py-3 focus:outline-none transition-colors"
+    >
+      Back to projects
+    </a>
+  </div>
+</section>
