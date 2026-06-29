@@ -1,26 +1,47 @@
-<%- layout('layouts/boilerplate') %>
+<% layout('layouts/boilerplate') %>
 
 <div class="max-w-screen-xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-semibold text-heading">All Projects</h1>
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-4xl font-black uppercase tracking-tight text-neo-ink">
+      All Projects
+    </h1>
+
     <a
       href="/projects/new"
-      class="inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
+      class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-5 py-2.5 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
     >
       New Project
+      <svg
+        class="w-4 h-4 ms-2"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-width="3"
+          d="M12 5v14m7-7H5"
+        />
+      </svg>
     </a>
   </div>
 
-  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <% for (let p of projects) { %>
     <a
       href="/projects/<%= p._id %>"
-      class="bg-neutral-primary-soft block max-w-sm p-6 border border-default rounded-base shadow-xs hover:bg-neutral-secondary-medium"
+      class="bg-neo-surface block p-6 border-2 border-neo-ink shadow-neo rounded-none transition-all hover:-translate-y-1 hover:shadow-neo-lg"
     >
-      <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">
+      <h5
+        class="mb-3 text-xl font-black uppercase tracking-tight text-neo-ink leading-none"
+      >
         <%= p.title %>
       </h5>
-      <p class="text-body">
+      <p class="text-neo-ink-light font-medium">
         <%= p.description || 'No description provided.' %>
       </p>
     </a>

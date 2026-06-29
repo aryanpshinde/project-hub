@@ -2,19 +2,33 @@
 
 <section class="flex items-center justify-center min-h-[70vh] p-4 w-full">
   <div
-    class="w-full max-w-2xl bg-neutral-primary-soft p-8 text-center border border-default rounded-base shadow-xs"
+    class="w-full max-w-2xl bg-neo-surface p-8 md:p-12 text-center border-2 border-neo-ink shadow-neo rounded-none"
   >
-    <h1 class="mb-4 text-7xl font-extrabold text-fg-brand">
+    <div
+      class="inline-block bg-neo-danger border-2 border-neo-ink shadow-neo-sm px-4 py-1 mb-6 rounded-none"
+    >
+      <span class="text-xs font-black uppercase tracking-widest text-neo-ink"
+        >System Error</span
+      >
+    </div>
+
+    <h1 class="mb-4 text-8xl md:text-9xl font-black text-neo-ink leading-none">
       <%= err.statusCode %>
     </h1>
 
-    <p class="mb-6 text-2xl font-semibold text-heading"><%= err.message %></p>
+    <p
+      class="mb-8 text-xl md:text-2xl font-bold text-neo-ink uppercase tracking-wide"
+    >
+      <%= err.message %>
+    </p>
 
     <% if (err.stack) { %>
     <div
-      class="mt-6 mb-8 p-4 text-left overflow-x-auto bg-neutral-secondary-soft border border-default rounded-base shadow-inner w-full"
+      class="mt-6 mb-8 p-4 text-left overflow-x-auto bg-neo-bg border-2 border-neo-ink shadow-neo-sm w-full rounded-none"
     >
-      <pre class="text-sm text-body whitespace-pre-wrap break-all font-mono">
+      <pre
+        class="text-xs md:text-sm text-neo-ink-light whitespace-pre-wrap break-all font-mono"
+      >
 <%= err.stack %></pre
       >
     </div>
@@ -22,9 +36,25 @@
 
     <a
       href="/projects"
-      class="inline-flex items-center justify-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-6 py-3 focus:outline-none transition-colors"
+      class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-1 active:translate-y-1 active:shadow-none"
     >
       Back to projects
+      <svg
+        class="w-4 h-4 ms-2"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-width="3"
+          d="M19 12H5m14 0-4 4m4-4-4-4"
+        />
+      </svg>
     </a>
   </div>
 </section>

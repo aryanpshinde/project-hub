@@ -1,39 +1,102 @@
-<%- layout('layouts/boilerplate') %>
+<% layout('layouts/boilerplate') %>
 
-<div class="max-w-screen-md mx-auto px-4 py-8">
-  <h1 class="text-2xl font-semibold text-heading mb-6">New Project</h1>
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <a
+    href="/projects"
+    class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6"
+  >
+    <svg
+      class="w-4 h-4 me-2"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="square"
+        stroke-width="3"
+        d="M5 12h14m-4-4-4 4m4 4-4-4"
+      />
+    </svg>
+    Back to projects
+  </a>
 
-  <div class="w-full max-w-sm bg-neutral-primary-soft p-6 border border-default rounded-base shadow-xs">
-    <form action="/projects" method="post">
-      <div class="mb-5">
-        <label for="title" class="block mb-2.5 text-sm font-medium text-heading">Project Name</label>
+  <div
+    class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none"
+  >
+    <div
+      class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none"
+    >
+      <span class="text-xs font-black uppercase tracking-widest text-neo-ink"
+        >New Project</span
+      >
+    </div>
+
+    <h1
+      class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none"
+    >
+      Create a Project
+    </h1>
+
+    <form action="/projects" method="post" class="space-y-6">
+      <div>
+        <label
+          for="title"
+          class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink"
+          >Project Name</label
+        >
         <input
           type="text"
           id="title"
           name="project[title]"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-          placeholder="Project title"
+          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
+          placeholder="e.g. My Awesome App"
           required
         />
       </div>
 
-      <div class="mb-5">
-        <label for="description" class="block mb-2.5 text-sm font-medium text-heading">Description</label>
+      <div>
+        <label
+          for="description"
+          class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink"
+          >Description</label
+        >
         <textarea
           id="description"
           name="project[description]"
-          rows="4"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body"
-          placeholder="Write your thoughts here..."
+          rows="5"
+          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors resize-none"
+          placeholder="What is this project about?"
         ></textarea>
       </div>
 
-      <button
-        type="submit"
-        class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none w-full"
-      >
-        Create Project
-      </button>
+      <div class="pt-4">
+        <button
+          type="submit"
+          class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full"
+        >
+          Create Project
+          <svg
+            class="w-4 h-4 ms-2"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="square"
+              stroke-width="3"
+              d="M12 5v14m7-7H5"
+            />
+          </svg>
+        </button>
+      </div>
     </form>
   </div>
 </div>
