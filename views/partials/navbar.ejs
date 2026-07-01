@@ -15,7 +15,7 @@
     </a>
 
     <div class="flex items-center md:order-2 space-x-3 md:space-x-0">
-      <!-- User Avatar Button (Added tactile click) -->
+      <% if (currentUser) { %>
       <button
         type="button"
         class="flex text-sm bg-neo-surface border-2 border-neo-ink shadow-neo-sm rounded-none md:me-0 focus:ring-4 focus:ring-neo-primary overflow-hidden active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all"
@@ -27,7 +27,7 @@
         <span class="sr-only">Open user menu</span>
         <img
           class="w-10 h-10 rounded-none"
-          src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff&bold=true"
+          src="https://ui-avatars.com/api/?name=<%= currentUser.username %>&background=2563eb&color=fff&bold=true"
           alt="user photo"
         />
       </button>
@@ -37,9 +37,11 @@
         id="user-dropdown"
       >
         <div class="px-4 py-3 text-sm border-b-2 border-neo-ink bg-neo-bg">
-          <span class="block text-neo-ink font-bold">Joseph McFall</span>
+          <span class="block text-neo-ink font-bold"
+            ><%= currentUser.username %></span
+          >
           <span class="block text-neo-ink-light truncate"
-            >name@flowbite.com</span
+            ><%= currentUser.email %></span
           >
         </div>
         <ul
@@ -48,29 +50,38 @@
         >
           <li>
             <a
-              href="#"
+              href="/projects"
               class="flex items-center w-full p-2 hover:bg-neo-warning hover:text-neo-ink rounded-none transition-colors"
               >Dashboard</a
             >
           </li>
           <li>
-            <a
-              href="#"
-              class="flex items-center w-full p-2 hover:bg-neo-bg rounded-none transition-colors"
-              >Settings</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center w-full p-2 hover:bg-neo-danger hover:text-neo-ink rounded-none transition-colors"
-              >Sign out</a
-            >
+            <form action="/logout" method="POST" class="w-full">
+              <button
+                type="submit"
+                class="flex items-center w-full p-2 hover:bg-neo-danger hover:text-neo-ink rounded-none transition-colors text-left cursor-pointer"
+              >
+                Sign out
+              </button>
+            </form>
           </li>
         </ul>
       </div>
+      <% } else { %>
+      <a
+        href="/login"
+        class="hidden sm:inline-flex items-center justify-center bg-neo-surface text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-warning active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
+      >
+        Login
+      </a>
+      <a
+        href="/register"
+        class="hidden sm:inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
+      >
+        Register
+      </a>
+      <% } %>
 
-      <!-- Mobile Menu Toggle (Added tactile click) -->
       <button
         data-collapse-toggle="navbar-user"
         type="button"
@@ -105,7 +116,6 @@
       <ul
         class="font-black uppercase text-sm tracking-wide flex flex-col p-0 mt-4 border-2 border-neo-ink shadow-neo bg-neo-surface md:flex-row md:space-x-4 md:mt-0 md:border-0 md:shadow-none md:bg-transparent rounded-none overflow-hidden"
       >
-        <!-- Home Button (Added tactile click) -->
         <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
           <a
             href="/"
@@ -135,6 +145,23 @@
             >Contact</a
           >
         </li>
+
+        <% if (!currentUser) { %>
+        <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
+          <a
+            href="/login"
+            class="block py-3 px-4 text-neo-ink hover:bg-neo-warning transition-colors rounded-none"
+            >Login</a
+          >
+        </li>
+        <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
+          <a
+            href="/register"
+            class="block py-3 px-4 text-neo-ink hover:bg-neo-warning transition-colors rounded-none"
+            >Register</a
+          >
+        </li>
+        <% } %>
       </ul>
     </div>
   </div>
