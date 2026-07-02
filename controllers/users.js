@@ -19,7 +19,7 @@ module.exports.register = async (req, res, next) => {
     if (e.name === "UserExistsError" || e.code === 11000) {
       req.flash(
         "error",
-        "An accont with that username or email already exists",
+        "An account with that username or email already exists",
       );
     } else {
       const errorMessage =
@@ -38,7 +38,9 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = (req, res) => {
   req.flash("success", "Welcome back!");
-  res.redirect("/projects");
+  const redirectUrl = res.locals.returnTo || "/projects";
+  delete req.session.returnTo;
+  res.redirect(redirectUrl);
 };
 
 module.exports.logout = (req, res, next) => {

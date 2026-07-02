@@ -11,6 +11,10 @@ const projectSchema = new Schema(
       type: String,
       default: "",
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

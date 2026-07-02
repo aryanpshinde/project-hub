@@ -11,6 +11,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createProject = async (req, res) => {
   const project = new Project(req.body.project);
+  project.owner = req.user._id;
   await project.save();
   res.redirect(`/projects/${project._id}`);
 };

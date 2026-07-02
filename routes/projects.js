@@ -1,20 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const projects = require("../controllers/projects");
-const { validateProject } = require("../middleware");
+const {
+  validateProject,
+  isLoggedIn,
+  isProjectOwner,
+} = require("../middleware");
 
 router
   .route("/")
   .get(projects.index)
-  .post(validateProject, projects.createProject);
+  .post(isLoggedIn, validateProject, projects.createProject);
 
-router.route("/new").get(projects.renderNewForm);
-router.route("/:id/edit").get(projects.renderEditForm);
+router.route("/new").get(isLoggedIn, projects.renderNewForm);
+router
+  .route("/:id/edit")
+  .get(isLoggedIn, isProjectOwner, projects.renderEditForm);
 
 router
   .route("/:id")
   .get(projects.showProject)
-  .put(validateProject, projects.updateProject)
-  .delete(projects.deleteProject);
+  .put(isLoggedIn, isProjectOwner, validateProject, projects.updateProject)
+  .delete(isLoggedIn, isProjectOwner, projects.deleteProject);
 
 module.exports = router;

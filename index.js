@@ -23,7 +23,7 @@ mongoose
     console.log("Mongo connection open");
   })
   .catch((e) => {
-    console.log("Mnogo Connection Error");
+    console.log("Mongo Connection Error");
     console.log(e);
   });
 

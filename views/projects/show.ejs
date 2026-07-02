@@ -1,5 +1,4 @@
 <% layout('layouts/boilerplate') %>
-
 <div class="max-w-2xl mx-auto px-4 py-8">
   <a
     href="/projects"
@@ -45,6 +44,8 @@
       <%= project.description || 'No description provided.' %>
     </p>
 
+    <%# Only show buttons if the user is logged in AND is the owner %> <% if
+    (currentUser && project.owner && project.owner.equals(currentUser._id)) { %>
     <div
       class="flex items-center gap-4 pt-6 border-t-2 border-dashed border-neo-ink/20"
     >
@@ -54,7 +55,6 @@
       >
         Edit Project
       </a>
-
       <form
         action="/projects/<%= project._id %>?_method=DELETE"
         method="POST"
@@ -72,5 +72,6 @@
         </button>
       </form>
     </div>
+    <% } %>
   </div>
 </div>
