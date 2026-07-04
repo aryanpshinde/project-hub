@@ -1,126 +1,63 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="max-w-2xl mx-auto px-4 py-8">
-  <a
-    href="/"
-    class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6"
-  >
-    <svg
-      class="w-4 h-4 me-2"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke="currentColor"
-        stroke-linecap="square"
-        stroke-width="3"
-        d="M5 12h14m-4-4-4 4m4 4-4-4"
-      />
-    </svg>
-    Back to home
-  </a>
+  <div class="max-w-2xl mx-auto px-4 py-8">
+    <a href="/"
+      class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6">
+      <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M5 12h14m-4-4-4 4m4 4-4-4" />
+      </svg>
+      Back to home
+    </a>
 
-  <div
-    class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none"
-  >
-    <div
-      class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none"
-    >
-      <span class="text-xs font-black uppercase tracking-widest text-white"
-        >Join Us</span
-      >
+    <div class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none">
+      <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none">
+        <span class="text-xs font-black uppercase tracking-widest text-white">Join Us</span>
+      </div>
+
+      <h1 class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
+        Create Account
+      </h1>
+
+      <form action="/register" method="post" class="space-y-6">
+        <div>
+          <label for="username"
+            class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Username</label>
+          <input type="text" id="username" name="user[username]"
+            class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
+            placeholder="e.g. johndoe" required />
+        </div>
+
+        <div>
+          <label for="email" class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Email</label>
+          <input type="email" id="email" name="user[email]"
+            class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
+            placeholder="name@projecthub.com" required />
+        </div>
+
+        <div>
+          <label for="password"
+            class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Password</label>
+          <input type="password" id="password" name="user[password]"
+            class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
+            placeholder="••••••••" required />
+        </div>
+
+        <div class="pt-4">
+          <button type="submit"
+            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full">
+            Register
+            <svg class="w-4 h-4 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M12 5v14m7-7H5" />
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-6 text-center text-sm font-medium text-neo-ink-light">
+        Already have an account?
+        <a href="/login" class="font-bold text-neo-primary hover:underline">Log in here</a>
+      </p>
     </div>
-
-    <h1
-      class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none"
-    >
-      Create Account
-    </h1>
-
-    <form action="/register" method="post" class="space-y-6">
-      <div>
-        <label
-          for="username"
-          class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink"
-          >Username</label
-        >
-        <input
-          type="text"
-          id="username"
-          name="user[username]"
-          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
-          placeholder="e.g. johndoe"
-          required
-        />
-      </div>
-
-      <div>
-        <label
-          for="email"
-          class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink"
-          >Email</label
-        >
-        <input
-          type="email"
-          id="email"
-          name="user[email]"
-          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
-          placeholder="name@projecthub.com"
-          required
-        />
-      </div>
-
-      <div>
-        <label
-          for="password"
-          class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink"
-          >Password</label
-        >
-        <input
-          type="password"
-          id="password"
-          name="user[password]"
-          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
-          placeholder="••••••••"
-          required
-        />
-      </div>
-
-      <div class="pt-4">
-        <button
-          type="submit"
-          class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full"
-        >
-          Register
-          <svg
-            class="w-4 h-4 ms-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="square"
-              stroke-width="3"
-              d="M12 5v14m7-7H5"
-            />
-          </svg>
-        </button>
-      </div>
-    </form>
-
-    <p class="mt-6 text-center text-sm font-medium text-neo-ink-light">
-      Already have an account?
-      <a href="/login" class="font-bold text-neo-primary hover:underline"
-        >Log in here</a
-      >
-    </p>
   </div>
-</div>

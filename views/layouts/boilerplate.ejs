@@ -1,16 +1,22 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProjectHub</title>
-    <link rel="stylesheet" href="/stylesheets/app.css" />
-  </head>
-  <body class="min-h-screen flex flex-col bg-neo-bg text-neo-ink antialiased">
-    <%- include("../partials/navbar") %>
-    <main class="flex-1"><%- include('../partials/flash') %> <%- body %></main>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectHub</title>
+  <link rel="stylesheet" href="/stylesheets/app.css" />
+</head>
+
+<body class="min-h-screen flex flex-col bg-neo-bg text-neo-ink antialiased">
+  <%- include("../partials/navbar") %>
+    <main class="flex-1">
+      <%- include('../partials/flash') %>
+        <%- body %>
+    </main>
 
     <%- include("../partials/footer") %>
-    <script src="/javascripts/flowbite.min.js"></script>
-  </body>
+      <script src="/javascripts/flowbite.min.js"></script>
+</body>
+
 </html>

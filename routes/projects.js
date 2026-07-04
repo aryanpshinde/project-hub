@@ -5,6 +5,7 @@ const {
   validateProject,
   isLoggedIn,
   isProjectOwner,
+  isProjectParticipant,
 } = require("../middleware");
 
 router
@@ -13,13 +14,17 @@ router
   .post(isLoggedIn, validateProject, projects.createProject);
 
 router.route("/new").get(isLoggedIn, projects.renderNewForm);
+
 router
   .route("/:id/edit")
   .get(isLoggedIn, isProjectOwner, projects.renderEditForm);
 
+router.post('/:id/members', isLoggedIn, isProjectOwner, projects.addMember)
+router.delete('/:id/members/:userId', isLoggedIn, isProjectOwner, projects.removeMember)
+
 router
   .route("/:id")
-  .get(projects.showProject)
+  .get(isLoggedIn, isProjectOwner, projects.showProject)
   .put(isLoggedIn, isProjectOwner, validateProject, projects.updateProject)
   .delete(isLoggedIn, isProjectOwner, projects.deleteProject);
 

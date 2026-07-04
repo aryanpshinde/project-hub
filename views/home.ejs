@@ -1,64 +1,36 @@
 <% layout('layouts/boilerplate') %>
 
-<section class="bg-neo-surface w-full border-b-2 border-neo-ink">
-  <div class="max-w-screen-xl mx-auto px-4 py-16 md:py-24 text-center">
-    <div
-      class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none"
-    >
-      <span class="text-xs font-black uppercase tracking-widest text-neo-ink"
-        >Welcome to ProjectHub</span
-      >
+  <section class="bg-neo-surface w-full border-b-2 border-neo-ink">
+    <div class="max-w-screen-xl mx-auto px-4 py-16 md:py-24 text-center">
+      <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none">
+        <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Welcome to ProjectHub</span>
+      </div>
+
+      <h1 class="mb-6 text-5xl font-black uppercase tracking-tight text-neo-ink md:text-6xl lg:text-7xl leading-none">
+        Build. Track. <br class="hidden md:block" />
+        <span
+          class="bg-neo-primary text-white px-3 py-1 border-2 border-neo-ink shadow-neo inline-block transform rotate-[-1deg]">Ship.</span>
+      </h1>
+
+      <p class="mb-10 text-lg md:text-xl font-medium text-neo-ink-light max-w-2xl mx-auto">
+        The no-nonsense project management tool for teams who want to focus on the
+        work, not the software.
+      </p>
+
+      <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+        <a href="/projects"
+          class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
+          View Projects
+          <svg class="w-5 h-5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M19 12H5m14 0-4 4m4-4-4-4" />
+          </svg>
+        </a>
+
+        <a href="/projects/new"
+          class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-yellow-300 active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
+          Create New
+        </a>
+      </div>
     </div>
-
-    <h1
-      class="mb-6 text-5xl font-black uppercase tracking-tight text-neo-ink md:text-6xl lg:text-7xl leading-none"
-    >
-      Build. Track. <br class="hidden md:block" />
-      <span
-        class="bg-neo-primary text-white px-3 py-1 border-2 border-neo-ink shadow-neo inline-block transform rotate-[-1deg]"
-        >Ship.</span
-      >
-    </h1>
-
-    <p
-      class="mb-10 text-lg md:text-xl font-medium text-neo-ink-light max-w-2xl mx-auto"
-    >
-      The no-nonsense project management tool for teams who want to focus on the
-      work, not the software.
-    </p>
-
-    <div
-      class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
-    >
-      <a
-        href="/projects"
-        class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-1 active:translate-y-1 active:shadow-neo-none"
-      >
-        View Projects
-        <svg
-          class="w-5 h-5 ms-2"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="square"
-            stroke-width="3"
-            d="M19 12H5m14 0-4 4m4-4-4-4"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="/projects/new"
-        class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-yellow-300 active:translate-x-1 active:translate-y-1 active:shadow-neo-none"
-      >
-        Create New
-      </a>
-    </div>
-  </div>
-</section>
+  </section>

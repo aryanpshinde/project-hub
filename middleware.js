@@ -37,3 +37,23 @@ module.exports.isProjectOwner = async (req, res, next) => {
   }
   next();
 };
+
+module.exports.isProjectParticipant = async (req, res, next) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+
+  if (!project) {
+    req.flash("error", "Project not found!");
+    return res.redirect("/projects");
+  }
+
+  const isOwner = project.owner.equals(req.user._id);
+  const isMember = project.members.some(memberId => memberId.equals(req.user._id));
+
+  if (!isOwner && !isMember) {
+    req.flash("error", "You don't have permission to view this project!");
+    return res.redirect("/projects");
+  }
+
+  next();
+};

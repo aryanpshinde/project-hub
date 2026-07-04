@@ -1,77 +1,105 @@
 <% layout('layouts/boilerplate') %>
-<div class="max-w-2xl mx-auto px-4 py-8">
-  <a
-    href="/projects"
-    class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6"
-  >
-    <svg
-      class="w-4 h-4 me-2"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke="currentColor"
-        stroke-linecap="square"
-        stroke-width="3"
-        d="M5 12h14m-4-4-4 4m4 4-4-4"
-      />
-    </svg>
-    Back to projects
-  </a>
+  <div class="max-w-2xl mx-auto px-4 py-8">
+    <a href="/projects"
+      class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6">
+      <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M5 12h14m-4-4-4 4m4 4-4-4" />
+      </svg>
+      Back to projects
+    </a>
 
-  <div
-    class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none"
-  >
-    <div
-      class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none"
-    >
-      <span class="text-xs font-black uppercase tracking-widest text-neo-ink"
-        >Project Details</span
-      >
+    <div class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none">
+      <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
+        <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Project Details</span>
+      </div>
+
+      <h1 class="mb-4 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
+        <%= project.title %>
+      </h1>
+      <p class="mb-8 text-lg text-neo-ink-light font-medium leading-relaxed">
+        <%= project.description || 'No description provided.' %>
+      </p>
+
+      <div class="pt-6 border-t-2 border-dashed border-neo-ink/20 mb-6">
+        <h2 class="text-xl font-black uppercase tracking-tight text-neo-ink mb-4">Team Members</h2>
+
+        <div class="space-y-3 mb-6">
+          <div
+            class="flex items-center justify-between p-3 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none">
+            <div class="flex items-center gap-3">
+              <img class="w-8 h-8 border-2 border-neo-ink"
+                src="https://ui-avatars.com/api/?name=<%= project.owner.username %>&background=2563eb&color=fff&bold=true"
+                alt="owner">
+              <div>
+                <p class="font-bold text-neo-ink">
+                  <%= project.owner.username %>
+                </p>
+                <p class="text-xs font-bold uppercase text-neo-ink-light">Owner</p>
+              </div>
+            </div>
+          </div>
+
+          <% if (project.members && project.members.length> 0) { %>
+            <% for (let member of project.members) { %>
+              <div
+                class="flex items-center justify-between p-3 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none">
+                <div class="flex items-center gap-3">
+                  <img class="w-8 h-8 border-2 border-neo-ink"
+                    src="https://ui-avatars.com/api/?name=<%= member.username %>&background=525252&color=fff&bold=true"
+                    alt="member">
+                  <div>
+                    <p class="font-bold text-neo-ink">
+                      <%= member.username %>
+                    </p>
+                    <p class="text-xs font-bold uppercase text-neo-ink-light">Member</p>
+                  </div>
+                </div>
+                <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
+                  <form action="/projects/<%= project._id %>/members/<%= member._id %>?_method=DELETE" method="POST"
+                    onsubmit="return confirm('Are you sure you want to remove this member?');">
+                    <button type="submit"
+                      class="text-xs font-bold uppercase text-red-600 bg-neo-surface border-2 border-red-600 px-3 py-1.5 shadow-neo-sm hover:bg-red-100 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">
+                      Remove
+                    </button>
+                  </form>
+                  <% } %>
+              </div>
+              <% } %>
+                <% } else { %>
+                  <p class="text-sm font-medium text-neo-ink-light italic">No additional members yet.</p>
+                  <% } %>
+        </div>
+
+        <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
+          <div class="p-4 bg-neo-surface border-2 border-neo-ink shadow-neo-sm rounded-none">
+            <h3 class="text-sm font-black uppercase tracking-wide text-neo-ink mb-3">Add Teammate</h3>
+            <form action="/projects/<%= project._id %>/members" method="POST" class="flex gap-3">
+              <input type="text" name="usernameOrEmail" placeholder="Username or Email" required
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-white rounded-none transition-colors">
+              <button type="submit"
+                class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">
+                Add
+              </button>
+            </form>
+          </div>
+          <% } %>
+      </div>
+
+      <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
+        <div class="flex items-center gap-4 pt-6 border-t-2 border-dashed border-neo-ink/20">
+          <a href="/projects/<%= project._id %>/edit"
+            class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-5 py-2.5 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
+            Edit Project
+          </a>
+          <form action="/projects/<%= project._id %>?_method=DELETE" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this project? This cannot be undone!');">
+            <button type="submit"
+              class="inline-flex items-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-5 py-2.5 rounded-none transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
+              Delete
+            </button>
+          </form>
+        </div>
+        <% } %>
     </div>
-
-    <h1
-      class="mb-4 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none"
-    >
-      <%= project.title %>
-    </h1>
-
-    <p class="mb-8 text-lg text-neo-ink-light font-medium leading-relaxed">
-      <%= project.description || 'No description provided.' %>
-    </p>
-
-    <%# Only show buttons if the user is logged in AND is the owner %> <% if
-    (currentUser && project.owner && project.owner.equals(currentUser._id)) { %>
-    <div
-      class="flex items-center gap-4 pt-6 border-t-2 border-dashed border-neo-ink/20"
-    >
-      <a
-        href="/projects/<%= project._id %>/edit"
-        class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-5 py-2.5 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
-      >
-        Edit Project
-      </a>
-      <form
-        action="/projects/<%= project._id %>?_method=DELETE"
-        method="POST"
-        onsubmit="
-          return confirm(
-            'Are you sure you want to delete this project? This cannot be undone!',
-          );
-        "
-      >
-        <button
-          type="submit"
-          class="inline-flex items-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-5 py-2.5 rounded-none transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
-        >
-          Delete
-        </button>
-      </form>
-    </div>
-    <% } %>
   </div>
-</div>
