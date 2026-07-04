@@ -24,7 +24,7 @@ router.delete('/:id/members/:userId', isLoggedIn, isProjectOwner, projects.remov
 
 router
   .route("/:id")
-  .get(isLoggedIn, isProjectOwner, projects.showProject)
+  .get(isLoggedIn, isProjectParticipant, projects.showProject)
   .put(isLoggedIn, isProjectOwner, validateProject, projects.updateProject)
   .delete(isLoggedIn, isProjectOwner, projects.deleteProject);
 
