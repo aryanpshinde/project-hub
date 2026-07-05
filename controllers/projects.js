@@ -39,8 +39,9 @@ module.exports.updateProject = async (req, res) => {
 
 module.exports.deleteProject = async (req, res) => {
   const { id } = req.params;
+  await Task.deleteMany({ project: id })
   await Project.findByIdAndDelete(id);
-  req.flash('success', 'Project deleted successfully!');
+  req.flash('success', 'Project and all associated tasks deleted successfully!');
   res.redirect("/projects");
 };
 
