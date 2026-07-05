@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate') %>
+  <div class="max-w-2xl mx-auto px-4 py-8">
+    <a href="/projects/<%= task.project %>"
+      class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6">
+      <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M5 12h14m-4-4-4 4m4 4-4-4" />
+      </svg>
+      Back to project
+    </a>
+    <div class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none">
+      <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
+        <span class="text-xs font-black uppercase tracking-widest text-white">Task Details</span>
+      </div>
+      <h1 class="mb-4 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
+        <%= task.title %>
+      </h1>
+      <p class="mb-6 text-lg text-neo-ink-light font-medium leading-relaxed">
+        <%= task.description || 'No description provided.' %>
+      </p>
+      <div
+        class="pt-4 border-t-2 border-dashed border-neo-ink/20 text-sm font-bold uppercase tracking-wide text-neo-ink-light">
+        Created by: <span class="text-neo-ink">
+          <%= task.createdBy.username %>
+        </span>
+      </div>
+    </div>
+  </div>

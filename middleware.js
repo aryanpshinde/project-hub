@@ -1,9 +1,20 @@
 const Project = require("./models/project");
-const { projectSchema } = require("./schemas");
+const { projectSchema, taskSchema } = require("./schemas");
 const ExpressError = require("./utils/ExpressError");
+const Task = require('./models/task')
 
 module.exports.validateProject = (req, res, next) => {
   const { error } = projectSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+module.exports.validateTask = (req, res, next) => {
+  const { error } = taskSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -57,3 +68,24 @@ module.exports.isProjectParticipant = async (req, res, next) => {
 
   next();
 };
+
+module.exports.isTaskEditor = async (req, res, next) => {
+  const { id, taskId } = req.params
+
+  const task = await Task.findById(taskId)
+  const project = await Project.findById(id)
+
+  if (!task || !project) {
+    req.flash('error', 'Task or project not found!')
+    return res.redirect(`/projects/${id}`)
+  }
+
+  const isCreator = task.createdBy.equals(req.user._id)
+  const isOwner = project.owner.equals(req.user._id)
+
+  if (!isCreator && !isOwner) {
+    req.flash('error', "You dont have permission to edit or delete this task!")
+    return res.redirect(`/projects/${id}`)
+  }
+  next()
+}
