@@ -42,6 +42,12 @@ module.exports.storeReturnTo = (req, res, next) => {
 module.exports.isProjectOwner = async (req, res, next) => {
   const { id } = req.params;
   const project = await Project.findById(id);
+
+  if (!project) {
+    req.flash('error', 'Project not found!')
+    return res.redirect('/projects')
+  }
+
   if (!project.owner.equals(req.user._id)) {
     req.flash("error", "You don't have permission to do that!");
     return res.redirect(`/projects/${id}`);
