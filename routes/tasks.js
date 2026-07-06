@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 const tasks = require('../controllers/tasks')
-const { isLoggedIn, isProjectParticipant, isTaskEditor, validateTask } = require('../middleware')
+const { isLoggedIn, isProjectParticipant, isTaskEditor, validateTask, validateTaskStatus } = require('../middleware')
 
-router.route('/').post(isLoggedIn, isProjectParticipant, validateTask, tasks.createTask)
-
-router.route('/:taskId/edit').get(isLoggedIn, isProjectParticipant, isTaskEditor, tasks.renderEditForm)
+router.post('/', isLoggedIn, isProjectParticipant, validateTask, tasks.createTask)
+router.get('/:taskId/edit', isLoggedIn, isProjectParticipant, isTaskEditor, tasks.renderEditForm)
+router.patch('/:taskId/status', isLoggedIn, isProjectParticipant, isTaskEditor, validateTaskStatus, tasks.updateTaskStatus)
 
 router.route('/:taskId')
   .get(isLoggedIn, isProjectParticipant, tasks.showTask)

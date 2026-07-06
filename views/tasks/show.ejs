@@ -8,21 +8,77 @@
       </svg>
       Back to project
     </a>
+
     <div class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none">
       <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
         <span class="text-xs font-black uppercase tracking-widest text-white">Task Details</span>
       </div>
+
       <h1 class="mb-4 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
         <%= task.title %>
       </h1>
       <p class="mb-6 text-lg text-neo-ink-light font-medium leading-relaxed">
         <%= task.description || 'No description provided.' %>
       </p>
+
+      <div
+        class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none">
+        <div>
+          <p class="text-[10px] font-black uppercase text-neo-ink-light mb-1">Status</p>
+          <p class="text-sm font-bold text-neo-ink capitalize">
+            <%= task.status.replace('-', ' ' ) %>
+          </p>
+        </div>
+        <div>
+          <p class="text-[10px] font-black uppercase text-neo-ink-light mb-1">Priority</p>
+          <p class="text-sm font-bold text-neo-ink capitalize">
+            <%= task.priority %>
+          </p>
+        </div>
+        <div>
+          <p class="text-[10px] font-black uppercase text-neo-ink-light mb-1">Due Date</p>
+          <p class="text-sm font-bold text-neo-ink">
+            <%= task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'None' %>
+          </p>
+        </div>
+        <div>
+          <p class="text-[10px] font-black uppercase text-neo-ink-light mb-1">Assignee</p>
+          <p class="text-sm font-bold text-neo-ink">
+            <%= task.assignedTo ? task.assignedTo.username : 'Unassigned' %>
+          </p>
+        </div>
+        <% if (task.completedAt) { %>
+          <div class="col-span-2 md:col-span-4 pt-2 border-t-2 border-dashed border-neo-ink/20">
+            <p class="text-[10px] font-black uppercase text-neo-ink-light mb-1">Completed On</p>
+            <p class="text-sm font-bold text-neo-ink">
+              <%= new Date(task.completedAt).toLocaleString() %>
+            </p>
+          </div>
+          <% } %>
+      </div>
+
       <div
         class="pt-4 border-t-2 border-dashed border-neo-ink/20 text-sm font-bold uppercase tracking-wide text-neo-ink-light">
         Created by: <span class="text-neo-ink">
           <%= task.createdBy.username %>
         </span>
       </div>
+
+      <% if (currentUser && (task.createdBy._id.equals(currentUser._id) || project.owner.equals(currentUser._id) ||
+        (task.assignedTo && task.assignedTo._id.equals(currentUser._id)))) { %>
+        <div class="flex flex-wrap gap-3 pt-6 border-t-2 border-dashed border-neo-ink/20 mt-6">
+          <a href="/projects/<%= project._id %>/tasks/<%= task._id %>/edit"
+            class="inline-flex items-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
+            Edit Task
+          </a>
+          <form action="/projects/<%= project._id %>/tasks/<%= task._id %>?_method=DELETE" method="POST"
+            onsubmit="return confirm('Delete this task? This cannot be undone.');">
+            <button type="submit"
+              class="inline-flex items-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
+              Delete Task
+            </button>
+          </form>
+        </div>
+        <% } %>
     </div>
   </div>

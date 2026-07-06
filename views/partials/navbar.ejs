@@ -21,7 +21,8 @@
             alt="user photo" />
         </button>
 
-        <div class="z-50 hidden bg-neo-surface border-2 border-neo-ink shadow-neo w-48 rounded-none" id="user-dropdown">
+        <div class="z-50 hidden absolute mt-2 bg-neo-surface border-2 border-neo-ink shadow-neo w-48 rounded-none"
+          id="user-dropdown">
           <div class="px-4 py-3 text-sm border-b-2 border-neo-ink bg-neo-bg">
             <span class="block text-neo-ink font-bold">
               <%= currentUser.username %>
@@ -87,7 +88,6 @@
           <a href="#"
             class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">Contact</a>
         </li>
-
         <% if (!currentUser) { %>
           <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
             <a href="/login"

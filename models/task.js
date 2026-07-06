@@ -18,7 +18,27 @@ const taskSchema = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-    }
+    },
+    status: {
+      type: String,
+      enum: ['todo', 'in-progress', 'done'],
+      default: 'todo',
+    },
+    priority: {
+      type: String,
+      enum: ['low', 'medium', 'high'],
+      default: 'medium',
+    },
+    assignedTo: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    dueDate: {
+      type: Date,
+    },
+    completedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true

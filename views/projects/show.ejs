@@ -10,9 +10,7 @@
     </a>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
       <div class="lg:col-span-1 space-y-6">
-
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
           <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Project Details</span>
@@ -27,15 +25,11 @@
           <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
             <div class="flex items-center gap-3 pt-4 border-t-2 border-dashed border-neo-ink/20">
               <a href="/projects/<%= project._id %>/edit"
-                class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
-                Edit
-              </a>
+                class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">Edit</a>
               <form action="/projects/<%= project._id %>?_method=DELETE" method="POST"
                 onsubmit="return confirm('Delete this project?');">
                 <button type="submit"
-                  class="inline-flex items-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
-                  Delete
-                </button>
+                  class="inline-flex items-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">Delete</button>
               </form>
             </div>
             <% } %>
@@ -45,7 +39,6 @@
           <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-white">Team</span>
           </div>
-
           <div class="space-y-3 mb-4">
             <div class="flex items-center gap-3 p-2 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none">
               <img class="w-8 h-8 border-2 border-neo-ink"
@@ -75,9 +68,7 @@
                     <form action="/projects/<%= project._id %>/members/<%= member._id %>?_method=DELETE" method="POST"
                       onsubmit="return confirm('Remove?');">
                       <button type="submit"
-                        class="text-[10px] font-bold uppercase text-red-600 hover:text-red-800 transition-colors">
-                        Remove
-                      </button>
+                        class="text-[10px] font-bold uppercase text-red-600 hover:text-red-800 transition-colors">Remove</button>
                     </form>
                     <% } %>
                 </div>
@@ -91,9 +82,7 @@
               <input type="text" name="usernameOrEmail" placeholder="Username/Email" required
                 class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-3 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-white rounded-none transition-colors">
               <button type="submit"
-                class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-[10px] px-3 py-2 rounded-none transition-all hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">
-                Add
-              </button>
+                class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-[10px] px-3 py-2 rounded-none transition-all hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">Add</button>
             </form>
             <% } %>
         </div>
@@ -111,46 +100,124 @@
           </div>
 
           <form action="/projects/<%= project._id %>/tasks" method="POST"
-            class="flex gap-3 mb-6 p-3 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none">
-            <input type="text" name="task[title]" placeholder="What needs to be done?" required
-              class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:border-neo-primary rounded-none transition-colors">
-            <button type="submit"
-              class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-5 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">
-              + Add
-            </button>
+            class="mb-6 p-4 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="md:col-span-2">
+              <input type="text" name="task[title]" placeholder="Task title..." required
+                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+            </div>
+            <div>
+              <select name="task[priority]"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+                <option value="low">Low Priority</option>
+                <option value="medium" selected>Medium Priority</option>
+                <option value="high">High Priority</option>
+              </select>
+            </div>
+            <div>
+              <input type="date" name="task[dueDate]"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+            </div>
+            <div>
+              <select name="task[assignedTo]"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+                <option value="">Unassigned</option>
+                <option value="<%= project.owner._id %>">
+                  <%= project.owner.username %> (Owner)
+                </option>
+                <% if (project.members && project.members.length> 0) { %>
+                  <% for (let member of project.members) { %>
+                    <option value="<%= member._id %>">
+                      <%= member.username %>
+                    </option>
+                    <% } %>
+                      <% } %>
+              </select>
+            </div>
+            <div class="flex items-center">
+              <button type="submit"
+                class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-5 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full whitespace-nowrap">+
+                Add Task</button>
+            </div>
           </form>
 
           <div class="space-y-3">
             <% if (tasks && tasks.length> 0) { %>
               <% for (let task of tasks) { %>
                 <div
-                  class="flex items-center justify-between p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none hover:shadow-neo transition-shadow">
-                  <div class="flex-1 min-w-0 mr-4">
-                    <a href="/projects/<%= project._id %>/tasks/<%= task._id %>"
-                      class="font-bold text-neo-ink hover:text-neo-primary transition-colors block truncate text-lg">
-                      <%= task.title %>
-                    </a>
-                    <p class="text-[11px] font-bold uppercase text-neo-ink-light mt-1">
-                      Created by <%= task.createdBy.username %>
-                    </p>
-                  </div>
+                  class="p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none hover:shadow-neo transition-shadow">
+                  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-2 mb-1 flex-wrap">
+                        <a href="/projects/<%= project._id %>/tasks/<%= task._id %>"
+                          class="font-bold text-neo-ink hover:text-neo-primary transition-colors block truncate text-lg">
+                          <%= task.title %>
+                        </a>
+                        <% if (task.status==='done' ) { %>
+                          <span
+                            class="inline-block bg-green-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Done</span>
+                          <% } else if (task.status==='in-progress' ) { %>
+                            <span
+                              class="inline-block bg-neo-warning border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">In
+                              Progress</span>
+                            <% } else { %>
+                              <span
+                                class="inline-block bg-gray-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Todo</span>
+                              <% } %>
 
-                  <% if (currentUser && (task.createdBy._id.equals(currentUser._id) ||
-                    project.owner._id.equals(currentUser._id))) { %>
-                    <div class="flex gap-2 shrink-0">
-                      <a href="/projects/<%= project._id %>/tasks/<%= task._id %>/edit"
-                        class="text-xs font-bold uppercase text-neo-ink bg-neo-warning border-2 border-neo-ink px-3 py-1.5 shadow-neo-sm hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">
-                        Edit
-                      </a>
-                      <form action="/projects/<%= project._id %>/tasks/<%= task._id %>?_method=DELETE" method="POST"
-                        onsubmit="return confirm('Delete?');">
-                        <button type="submit"
-                          class="text-xs font-bold uppercase text-white bg-red-500 border-2 border-neo-ink px-3 py-1.5 shadow-neo-sm hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">
-                          Del
-                        </button>
-                      </form>
+                                <% if (task.priority==='high' ) { %>
+                                  <span
+                                    class="inline-block bg-red-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">High</span>
+                                  <% } else if (task.priority==='medium' ) { %>
+                                    <span
+                                      class="inline-block bg-yellow-100 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Med</span>
+                                    <% } %>
+                      </div>
+                      <div
+                        class="flex items-center gap-3 text-[11px] font-bold uppercase text-neo-ink-light mt-1 flex-wrap">
+                        <span>By <%= task.createdBy.username %></span>
+                        <% if (task.dueDate) { %>
+                          <span>Due: <%= new Date(task.dueDate).toLocaleDateString() %></span>
+                          <% } %>
+                            <% if (task.assignedTo) { %>
+                              <span class="flex items-center gap-1">
+                                <img
+                                  src="https://ui-avatars.com/api/?name=<%= task.assignedTo.username %>&background=525252&color=fff&bold=true&size=16"
+                                  class="border border-neo-ink" alt="">
+                                <%= task.assignedTo.username %>
+                              </span>
+                              <% } else { %>
+                                <span>Unassigned</span>
+                                <% } %>
+                      </div>
                     </div>
-                    <% } %>
+
+                    <div class="flex items-center gap-2 shrink-0">
+                      <% if (currentUser && (task.createdBy._id.equals(currentUser._id) ||
+                        project.owner._id.equals(currentUser._id) || (task.assignedTo &&
+                        task.assignedTo._id.equals(currentUser._id)))) { %>
+                        <form action="/projects/<%= project._id %>/tasks/<%= task._id %>/status?_method=PATCH"
+                          method="POST" class="flex gap-1">
+                          <select name="task[status]"
+                            class="bg-white border-2 border-neo-ink text-neo-ink text-[10px] font-bold uppercase px-2 py-1 shadow-neo-sm focus:outline-none rounded-none">
+                            <option value="todo" <%=task.status==='todo' ? 'selected' : '' %>>Todo</option>
+                            <option value="in-progress" <%=task.status==='in-progress' ? 'selected' : '' %>>Prog
+                            </option>
+                            <option value="done" <%=task.status==='done' ? 'selected' : '' %>>Done</option>
+                          </select>
+                          <button type="submit"
+                            class="bg-neo-success border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1 shadow-neo-sm hover:bg-green-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Save</button>
+                        </form>
+
+                        <a href="/projects/<%= project._id %>/tasks/<%= task._id %>/edit"
+                          class="text-[10px] font-bold uppercase text-neo-ink bg-neo-warning border-2 border-neo-ink px-2 py-1 shadow-neo-sm hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Edit</a>
+                        <form action="/projects/<%= project._id %>/tasks/<%= task._id %>?_method=DELETE" method="POST"
+                          onsubmit="return confirm('Delete?');">
+                          <button type="submit"
+                            class="text-[10px] font-bold uppercase text-white bg-red-500 border-2 border-neo-ink px-2 py-1 shadow-neo-sm hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Del</button>
+                        </form>
+                        <% } %>
+                    </div>
+                  </div>
                 </div>
                 <% } %>
                   <% } else { %>
@@ -162,6 +229,5 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>

@@ -8,13 +8,15 @@
       </svg>
       Back to project
     </a>
+
     <div class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none">
       <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none">
         <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Edit Task</span>
       </div>
-      <h1 class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
-        Update Task
+
+      <h1 class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">Update Task
       </h1>
+
       <form action="/projects/<%= task.project %>/tasks/<%= task._id %>?_method=PUT" method="post" class="space-y-6">
         <div>
           <label for="title" class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Task
@@ -23,6 +25,7 @@
             class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
             placeholder="e.g. Fix login bug" value="<%= task.title %>" required />
         </div>
+
         <div>
           <label for="description"
             class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Description</label>
@@ -30,11 +33,55 @@
             class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors resize-none"
             placeholder="What needs to be done?"><%= task.description %></textarea>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Status</label>
+            <select name="task[status]"
+              class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
+              <option value="todo" <%=task.status==='todo' ? 'selected' : '' %>>Todo</option>
+              <option value="in-progress" <%=task.status==='in-progress' ? 'selected' : '' %>>In Progress</option>
+              <option value="done" <%=task.status==='done' ? 'selected' : '' %>>Done</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Priority</label>
+            <select name="task[priority]"
+              class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
+              <option value="low" <%=task.priority==='low' ? 'selected' : '' %>>Low</option>
+              <option value="medium" <%=task.priority==='medium' ? 'selected' : '' %>>Medium</option>
+              <option value="high" <%=task.priority==='high' ? 'selected' : '' %>>High</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Due Date</label>
+            <input type="date" name="task[dueDate]"
+              value="<%= task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '' %>"
+              class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
+          </div>
+          <div>
+            <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Assignee</label>
+            <select name="task[assignedTo]"
+              class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
+              <option value="">Unassigned</option>
+              <option value="<%= project.owner._id %>" <%=task.assignedTo &&
+                task.assignedTo._id.equals(project.owner._id) ? 'selected' : '' %>><%= project.owner.username %> (Owner)
+              </option>
+              <% if (project.members && project.members.length> 0) { %>
+                <% for (let member of project.members) { %>
+                  <option value="<%= member._id %>" <%=task.assignedTo && task.assignedTo._id.equals(member._id)
+                    ? 'selected' : '' %>><%= member.username %>
+                  </option>
+                  <% } %>
+                    <% } %>
+            </select>
+          </div>
+        </div>
+
         <div class="pt-4">
           <button type="submit"
-            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full">
-            Update Task
-          </button>
+            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full">Update
+            Task</button>
         </div>
       </form>
     </div>

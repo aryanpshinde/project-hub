@@ -1,5 +1,5 @@
 const Project = require("./models/project");
-const { projectSchema, taskSchema } = require("./schemas");
+const { projectSchema, taskSchema, taskStatusSchema } = require("./schemas");
 const ExpressError = require("./utils/ExpressError");
 const Task = require('./models/task')
 
@@ -82,10 +82,21 @@ module.exports.isTaskEditor = async (req, res, next) => {
 
   const isCreator = task.createdBy.equals(req.user._id)
   const isOwner = project.owner.equals(req.user._id)
+  const isAssignee = task.assignedTo && task.assignedTo.equals(req.user._id)
 
-  if (!isCreator && !isOwner) {
+  if (!isCreator && !isOwner && !isAssignee) {
     req.flash('error', "You dont have permission to edit or delete this task!")
     return res.redirect(`/projects/${id}`)
   }
   next()
 }
+
+module.exports.validateTaskStatus = (req, res, next) => {
+  const { error } = taskStatusSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};

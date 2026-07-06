@@ -21,7 +21,7 @@ module.exports.createProject = async (req, res) => {
 
 module.exports.showProject = async (req, res) => {
   const project = await Project.findById(req.params.id).populate('owner').populate('members');
-  const tasks = await Task.find({ project: project._id }).populate('createdBy')
+  const tasks = await Task.find({ project: project._id }).populate('createdBy').populate('assignedTo')
   res.render("projects/show", { project, tasks });
 };
 
@@ -83,6 +83,13 @@ module.exports.removeMember = async (req, res) => {
 
   project.members.pull(userId);
   await project.save();
+
+  await Task.updateMany({ project: id, assignedTo: userId }, {
+    $set: {
+      assignedTo: null
+    }
+  })
+
   req.flash('success', 'Member removed successfully!');
   res.redirect(`/projects/${id}`);
 };
