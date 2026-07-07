@@ -23,3 +23,9 @@ module.exports.taskStatusSchema = Joi.object({
     status: Joi.string().valid('todo', 'in-progress', 'done').required()
   }).required()
 });
+
+module.exports.commentSchema = Joi.object({
+  comment: Joi.object({
+    body: Joi.string().required(),
+  }).required(),
+});

@@ -1,7 +1,8 @@
 const Project = require("./models/project");
-const { projectSchema, taskSchema, taskStatusSchema } = require("./schemas");
+const { projectSchema, taskSchema, taskStatusSchema, commentSchema } = require("./schemas");
 const ExpressError = require("./utils/ExpressError");
 const Task = require('./models/task')
+const Comment = require('./models/comment')
 
 module.exports.validateProject = (req, res, next) => {
   const { error } = projectSchema.validate(req.body);
@@ -15,6 +16,16 @@ module.exports.validateProject = (req, res, next) => {
 
 module.exports.validateTask = (req, res, next) => {
   const { error } = taskSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+module.exports.validateComment = (req, res, next) => {
+  const { error } = commentSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -105,4 +116,32 @@ module.exports.validateTaskStatus = (req, res, next) => {
   } else {
     next();
   }
+};
+
+module.exports.isCommentAuthorOrProjectOwner = async (req, res, next) => {
+  const { id, taskId, commentId } = req.params;
+
+  const task = await Task.findById(taskId)
+  const project = await Project.findById(id)
+
+  if (!task || !project) {
+    req.flash('error', 'Task or project not found!');
+    return res.redirect(`/projects/${id}`);
+  }
+
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    req.flash('error', 'Comment not found!');
+    return res.redirect(`/projects/${id}`);
+  }
+
+  const isCommentAuthor = comment.author.equals(req.user._id);
+  const isProjectOwner = project.owner.equals(req.user._id);
+
+  if (!isCommentAuthor && !isProjectOwner) {
+    req.flash('error', "You don't have permission to delete this comment!");
+    return res.redirect(`/projects/${id}`);
+  }
+
+  next();
 };

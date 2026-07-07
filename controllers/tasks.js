@@ -1,5 +1,7 @@
 const Project = require('../models/project')
 const Task = require('../models/task')
+const Comment = require('../models/comment')
+const { commentSchema } = require('../schemas')
 
 module.exports.createTask = async (req, res) => {
   const { id } = req.params
@@ -20,8 +22,10 @@ module.exports.createTask = async (req, res) => {
 module.exports.showTask = async (req, res) => {
   const { id, taskId } = req.params
   const task = await Task.findById(taskId).populate('createdBy').populate('assignedTo')
-  const project = await Project.findById(id)
-  res.render(`tasks/show`, { task, project })
+  const project = await Project.findById(id).populate('owner').populate('members')
+  const comments = await Comment.find({ task: taskId }).populate('author').sort({ createdAt: -1 })
+
+  res.render(`tasks/show`, { task, project, comments })
 }
 
 module.exports.renderEditForm = async (req, res) => {
@@ -53,6 +57,7 @@ module.exports.updateTask = async (req, res) => {
 
 module.exports.deleteTask = async (req, res) => {
   const { id, taskId } = req.params
+  await Comment.deleteMany({ task: taskId })
   await Task.findByIdAndDelete(taskId)
   req.flash('success', 'Task deleted successfully!')
   res.redirect(`/projects/${id}`)
