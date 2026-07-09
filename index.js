@@ -14,6 +14,7 @@ const User = require("./models/user");
 
 const projectRoutes = require("./routes/projects");
 const userRoutes = require("./routes/users");
+const dashboardRoutes = require("./routes/dashboard");
 
 require("dotenv").config({ quiet: true });
 
@@ -75,6 +76,7 @@ app.use((req, res, next) => {
 
 app.use("/projects", projectRoutes);
 app.use("/", userRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
