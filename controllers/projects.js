@@ -1,5 +1,5 @@
 const Project = require("../models/project");
-const Task = require('../models/task')
+const Task = require("../models/task");
 const User = require("../models/user");
 const Comment = require("../models/comment");
 
@@ -16,7 +16,7 @@ module.exports.createProject = async (req, res) => {
   const project = new Project(req.body.project);
   project.owner = req.user._id;
   await project.save();
-  req.flash('success', 'Project created successfully!');
+  req.flash("success", "Project created successfully!");
   res.redirect(`/projects/${project._id}`);
 };
 
@@ -37,8 +37,10 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateProject = async (req, res) => {
   const { id } = req.params;
-  const project = await Project.findByIdAndUpdate(id, req.body.project, { new: true });
-  req.flash('success', 'Project updated successfully!');
+  const project = await Project.findByIdAndUpdate(id, req.body.project, {
+    new: true,
+  });
+  req.flash("success", "Project updated successfully!");
   res.redirect(`/projects/${project._id}`);
 };
 
@@ -48,7 +50,10 @@ module.exports.deleteProject = async (req, res) => {
   await Comment.deleteMany({ task: { $in: tasks.map((task) => task._id) } });
   await Task.deleteMany({ project: id });
   await Project.findByIdAndDelete(id);
-  req.flash('success', 'Project and all associated tasks deleted successfully!');
+  req.flash(
+    "success",
+    "Project and all associated tasks deleted successfully!",
+  );
   res.redirect("/projects");
 };
 
@@ -57,15 +62,15 @@ module.exports.addMember = async (req, res) => {
   const { usernameOrEmail } = req.body;
   const project = await Project.findById(id);
   const userToAdd = await User.findOne({
-    $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
+    $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
   });
 
   if (!userToAdd) {
-    req.flash('error', 'User not found!');
+    req.flash("error", "User not found!");
     return res.redirect(`/projects/${id}`);
   }
   if (project.owner.equals(userToAdd._id)) {
-    req.flash('error', 'You cannot add the owner as a member!');
+    req.flash("error", "You cannot add the owner as a member!");
     return res.redirect(`/projects/${id}`);
   }
   if (project.members.some((member) => member.equals(userToAdd._id))) {
@@ -75,7 +80,7 @@ module.exports.addMember = async (req, res) => {
 
   project.members.push(userToAdd._id);
   await project.save();
-  req.flash('success', 'Member added successfully!');
+  req.flash("success", "Member added successfully!");
   res.redirect(`/projects/${id}`);
 };
 
@@ -84,19 +89,22 @@ module.exports.removeMember = async (req, res) => {
   const project = await Project.findById(id);
 
   if (project.owner.equals(userId)) {
-    req.flash('error', 'You cannot remove the owner!');
+    req.flash("error", "You cannot remove the owner!");
     return res.redirect(`/projects/${id}`);
   }
 
   project.members.pull(userId);
   await project.save();
 
-  await Task.updateMany({ project: id, assignedTo: userId }, {
-    $set: {
-      assignedTo: null
-    }
-  })
+  await Task.updateMany(
+    { project: id, assignedTo: userId },
+    {
+      $set: {
+        assignedTo: null,
+      },
+    },
+  );
 
-  req.flash('success', 'Member removed successfully!');
+  req.flash("success", "Member removed successfully!");
   res.redirect(`/projects/${id}`);
 };

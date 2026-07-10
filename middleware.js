@@ -1,8 +1,13 @@
 const Project = require("./models/project");
-const { projectSchema, taskSchema, taskStatusSchema, commentSchema } = require("./schemas");
+const {
+  projectSchema,
+  taskSchema,
+  taskStatusSchema,
+  commentSchema,
+} = require("./schemas");
 const ExpressError = require("./utils/ExpressError");
-const Task = require('./models/task')
-const Comment = require('./models/comment')
+const Task = require("./models/task");
+const Comment = require("./models/comment");
 
 module.exports.validateProject = (req, res, next) => {
   const { error } = projectSchema.validate(req.body);
@@ -55,8 +60,8 @@ module.exports.isProjectOwner = async (req, res, next) => {
   const project = await Project.findById(id);
 
   if (!project) {
-    req.flash('error', 'Project not found!')
-    return res.redirect('/projects')
+    req.flash("error", "Project not found!");
+    return res.redirect("/projects");
   }
 
   if (!project.owner.equals(req.user._id)) {
@@ -76,7 +81,9 @@ module.exports.isProjectParticipant = async (req, res, next) => {
   }
 
   const isOwner = project.owner.equals(req.user._id);
-  const isMember = project.members.some(memberId => memberId.equals(req.user._id));
+  const isMember = project.members.some((memberId) =>
+    memberId.equals(req.user._id),
+  );
 
   if (!isOwner && !isMember) {
     req.flash("error", "You don't have permission to view this project!");
@@ -87,26 +94,26 @@ module.exports.isProjectParticipant = async (req, res, next) => {
 };
 
 module.exports.isTaskEditor = async (req, res, next) => {
-  const { id, taskId } = req.params
+  const { id, taskId } = req.params;
 
-  const task = await Task.findById(taskId)
-  const project = await Project.findById(id)
+  const task = await Task.findById(taskId);
+  const project = await Project.findById(id);
 
   if (!task || !project) {
-    req.flash('error', 'Task or project not found!')
-    return res.redirect(`/projects/${id}`)
+    req.flash("error", "Task or project not found!");
+    return res.redirect(`/projects/${id}`);
   }
 
-  const isCreator = task.createdBy.equals(req.user._id)
-  const isOwner = project.owner.equals(req.user._id)
-  const isAssignee = task.assignedTo && task.assignedTo.equals(req.user._id)
+  const isCreator = task.createdBy.equals(req.user._id);
+  const isOwner = project.owner.equals(req.user._id);
+  const isAssignee = task.assignedTo && task.assignedTo.equals(req.user._id);
 
   if (!isCreator && !isOwner && !isAssignee) {
-    req.flash('error', "You dont have permission to edit or delete this task!")
-    return res.redirect(`/projects/${id}`)
+    req.flash("error", "You dont have permission to edit or delete this task!");
+    return res.redirect(`/projects/${id}`);
   }
-  next()
-}
+  next();
+};
 
 module.exports.validateTaskStatus = (req, res, next) => {
   const { error } = taskStatusSchema.validate(req.body);
@@ -121,17 +128,17 @@ module.exports.validateTaskStatus = (req, res, next) => {
 module.exports.isCommentAuthorOrProjectOwner = async (req, res, next) => {
   const { id, taskId, commentId } = req.params;
 
-  const task = await Task.findById(taskId)
-  const project = await Project.findById(id)
+  const task = await Task.findById(taskId);
+  const project = await Project.findById(id);
 
   if (!task || !project) {
-    req.flash('error', 'Task or project not found!');
+    req.flash("error", "Task or project not found!");
     return res.redirect(`/projects/${id}`);
   }
 
   const comment = await Comment.findById(commentId);
   if (!comment) {
-    req.flash('error', 'Comment not found!');
+    req.flash("error", "Comment not found!");
     return res.redirect(`/projects/${id}`);
   }
 
@@ -139,7 +146,7 @@ module.exports.isCommentAuthorOrProjectOwner = async (req, res, next) => {
   const isProjectOwner = project.owner.equals(req.user._id);
 
   if (!isCommentAuthor && !isProjectOwner) {
-    req.flash('error', "You don't have permission to delete this comment!");
+    req.flash("error", "You don't have permission to delete this comment!");
     return res.redirect(`/projects/${id}`);
   }
 
