@@ -79,7 +79,7 @@ app.use("/", userRoutes);
 app.use("/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home", { title: "Home" });
 });
 
 app.all("/{*path}", (req, res, next) => {
@@ -99,7 +99,7 @@ app.use((err, req, res, next) => {
     message,
     stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
   };
-  res.status(statusCode).render("error", { err: safeErr });
+  res.status(statusCode).render("error", { err: safeErr, title: "Error" });
 });
 
 const port = process.env.PORT;

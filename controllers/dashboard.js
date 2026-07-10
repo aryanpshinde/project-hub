@@ -31,5 +31,6 @@ module.exports.renderDashboard = async (req, res, next) => {
     assignedTasks,
     overdueTasks,
     taskCounts,
+    title: "Dashboard",
   });
 };

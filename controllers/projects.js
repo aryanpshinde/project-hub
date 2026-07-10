@@ -1,14 +1,15 @@
 const Project = require("../models/project");
 const Task = require('../models/task')
 const User = require("../models/user");
+const Comment = require("../models/comment");
 
 module.exports.index = async (req, res) => {
   const projects = await Project.find({});
-  res.render("projects/index", { projects });
+  res.render("projects/index", { projects, title: "Projects" });
 };
 
 module.exports.renderNewForm = (req, res) => {
-  res.render("projects/new");
+  res.render("projects/new", { title: "Create Project" });
 };
 
 module.exports.createProject = async (req, res) => {
@@ -20,14 +21,18 @@ module.exports.createProject = async (req, res) => {
 };
 
 module.exports.showProject = async (req, res) => {
-  const project = await Project.findById(req.params.id).populate('owner').populate('members');
-  const tasks = await Task.find({ project: project._id }).populate('createdBy').populate('assignedTo')
-  res.render("projects/show", { project, tasks });
+  const project = await Project.findById(req.params.id)
+    .populate("owner")
+    .populate("members");
+  const tasks = await Task.find({ project: project._id })
+    .populate("createdBy")
+    .populate("assignedTo");
+  res.render("projects/show", { project, tasks, title: project.title });
 };
 
 module.exports.renderEditForm = async (req, res) => {
   const project = await Project.findById(req.params.id);
-  res.render("projects/edit", { project });
+  res.render("projects/edit", { project, title: `Edit ${project.title}` });
 };
 
 module.exports.updateProject = async (req, res) => {
@@ -39,7 +44,9 @@ module.exports.updateProject = async (req, res) => {
 
 module.exports.deleteProject = async (req, res) => {
   const { id } = req.params;
-  await Task.deleteMany({ project: id })
+  const tasks = await Task.find({ project: id }, "_id");
+  await Comment.deleteMany({ task: { $in: tasks.map((task) => task._id) } });
+  await Task.deleteMany({ project: id });
   await Project.findByIdAndDelete(id);
   req.flash('success', 'Project and all associated tasks deleted successfully!');
   res.redirect("/projects");
@@ -61,8 +68,8 @@ module.exports.addMember = async (req, res) => {
     req.flash('error', 'You cannot add the owner as a member!');
     return res.redirect(`/projects/${id}`);
   }
-  if (project.members.includes(userToAdd._id)) {
-    req.flash('error', 'User is already a member!');
+  if (project.members.some((member) => member.equals(userToAdd._id))) {
+    req.flash("error", "User is already a member!");
     return res.redirect(`/projects/${id}`);
   }
 

@@ -20,13 +20,19 @@ module.exports.createTask = async (req, res) => {
 }
 
 module.exports.showTask = async (req, res) => {
-  const { id, taskId } = req.params
-  const task = await Task.findById(taskId).populate('createdBy').populate('assignedTo')
-  const project = await Project.findById(id).populate('owner').populate('members')
-  const comments = await Comment.find({ task: taskId }).populate('author').sort({ createdAt: -1 })
+  const { id, taskId } = req.params;
+  const task = await Task.findById(taskId)
+    .populate("createdBy")
+    .populate("assignedTo");
+  const project = await Project.findById(id)
+    .populate("owner")
+    .populate("members");
+  const comments = await Comment.find({ task: taskId })
+    .populate("author")
+    .sort({ createdAt: -1 });
 
-  res.render(`tasks/show`, { task, project, comments })
-}
+  res.render(`tasks/show`, { task, project, comments, title: task.title });
+};
 
 module.exports.renderEditForm = async (req, res) => {
   const { id, taskId } = req.params
