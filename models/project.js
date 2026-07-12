@@ -21,6 +21,11 @@ const projectSchema = new Schema(
         ref: "User",
       },
     ],
+    status: {
+      type: String,
+      enum: ["active", "completed", "archived"],
+      default: "active",
+    },
   },
   {
     timestamps: true,

@@ -8,20 +8,27 @@
       </svg>
       Back to projects
     </a>
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="lg:col-span-1 space-y-6">
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
           <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Project Details</span>
           </div>
-          <h1 class="mb-3 text-2xl font-black uppercase tracking-tight text-neo-ink leading-none">
-            <%= project.title %>
-          </h1>
+          <div class="flex items-center gap-2 mb-3">
+            <h1 class="text-2xl font-black uppercase tracking-tight text-neo-ink leading-none">
+              <%= project.title %>
+            </h1>
+            <% if (project.status==='completed' ) { %>
+              <span
+                class="inline-block bg-green-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Done</span>
+              <% } else if (project.status==='archived' ) { %>
+                <span
+                  class="inline-block bg-gray-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Archived</span>
+                <% } %>
+          </div>
           <p class="mb-6 text-sm text-neo-ink-light font-medium leading-relaxed">
             <%= project.description || 'No description provided.' %>
           </p>
-
           <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
             <div class="flex items-center gap-3 pt-4 border-t-2 border-dashed border-neo-ink/20">
               <a href="/projects/<%= project._id %>/edit"
@@ -34,7 +41,6 @@
             </div>
             <% } %>
         </div>
-
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
           <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-white">Team</span>
@@ -51,7 +57,6 @@
                 <p class="text-[10px] font-bold uppercase text-neo-ink-light">Owner</p>
               </div>
             </div>
-
             <% if (project.members && project.members.length> 0) { %>
               <% for (let member of project.members) { %>
                 <div class="flex items-center gap-3 p-2 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none">
@@ -75,7 +80,6 @@
                 <% } %>
                   <% } %>
           </div>
-
           <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
             <form action="/projects/<%= project._id %>/members" method="POST"
               class="flex gap-2 pt-4 border-t-2 border-dashed border-neo-ink/20">
@@ -87,7 +91,6 @@
             <% } %>
         </div>
       </div>
-
       <div class="lg:col-span-2">
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none min-h-[500px]">
           <div class="flex items-center justify-between mb-6">
@@ -98,6 +101,65 @@
               <%= tasks ? tasks.length : 0 %> Total
             </span>
           </div>
+
+          <form method="GET" action="/projects/<%= project._id %>"
+            class="mb-6 p-4 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none grid grid-cols-2 md:grid-cols-5 gap-3 items-end">
+            <div class="col-span-2 md:col-span-1">
+              <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Status</label>
+              <select name="taskStatus"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                <option value="">All</option>
+                <option value="todo" <%=query.taskStatus==='todo' ? 'selected' : '' %>>Todo</option>
+                <option value="in-progress" <%=query.taskStatus==='in-progress' ? 'selected' : '' %>>In Progress
+                </option>
+                <option value="done" <%=query.taskStatus==='done' ? 'selected' : '' %>>Done</option>
+              </select>
+            </div>
+            <div class="col-span-2 md:col-span-1">
+              <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Priority</label>
+              <select name="priority"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                <option value="">All</option>
+                <option value="high" <%=query.priority==='high' ? 'selected' : '' %>>High</option>
+                <option value="medium" <%=query.priority==='medium' ? 'selected' : '' %>>Medium</option>
+                <option value="low" <%=query.priority==='low' ? 'selected' : '' %>>Low</option>
+              </select>
+            </div>
+            <div class="col-span-2 md:col-span-1">
+              <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Assignee</label>
+              <select name="assignedTo"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                <option value="">All</option>
+                <option value="unassigned" <%=query.assignedTo==='unassigned' ? 'selected' : '' %>>Unassigned</option>
+                <option value="<%= project.owner._id %>" <%=query.assignedTo===project.owner._id.toString() ? 'selected'
+                  : '' %>><%= project.owner.username %>
+                </option>
+                <% if (project.members && project.members.length> 0) { %>
+                  <% for (let member of project.members) { %>
+                    <option value="<%= member._id %>" <%=query.assignedTo===member._id.toString() ? 'selected' : '' %>>
+                      <%= member.username %>
+                    </option>
+                    <% } %>
+                      <% } %>
+              </select>
+            </div>
+            <div class="col-span-2 md:col-span-1">
+              <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Sort By</label>
+              <select name="sort"
+                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                <option value="">Newest</option>
+                <option value="dueDateAsc" <%=query.sort==='dueDateAsc' ? 'selected' : '' %>>Due Date (Asc)</option>
+                <option value="dueDateDesc" <%=query.sort==='dueDateDesc' ? 'selected' : '' %>>Due Date (Desc)</option>
+                <option value="priority" <%=query.sort==='priority' ? 'selected' : '' %>>Priority</option>
+              </select>
+            </div>
+            <div class="col-span-2 md:col-span-1 flex gap-2">
+              <button type="submit"
+                class="flex-1 bg-neo-warning border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1.5 shadow-neo-sm hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Filter</button>
+              <a href="/projects/<%= project._id %>"
+                class="bg-neo-surface border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1.5 shadow-neo-sm hover:bg-neo-bg active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">X</a>
+            </div>
+          </form>
 
           <form action="/projects/<%= project._id %>/tasks" method="POST"
             class="mb-6 p-4 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -139,7 +201,6 @@
                 Add Task</button>
             </div>
           </form>
-
           <div class="space-y-3">
             <% if (tasks && tasks.length> 0) { %>
               <% for (let task of tasks) { %>
@@ -163,7 +224,6 @@
                               <span
                                 class="inline-block bg-gray-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Todo</span>
                               <% } %>
-
                                 <% if (task.priority==='high' ) { %>
                                   <span
                                     class="inline-block bg-red-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">High</span>
@@ -190,7 +250,6 @@
                                 <% } %>
                       </div>
                     </div>
-
                     <div class="flex items-center gap-2 shrink-0">
                       <% if (currentUser && (task.createdBy._id.equals(currentUser._id) ||
                         project.owner._id.equals(currentUser._id) || (task.assignedTo &&
@@ -207,7 +266,6 @@
                           <button type="submit"
                             class="bg-neo-success border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1 shadow-neo-sm hover:bg-green-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Save</button>
                         </form>
-
                         <a href="/projects/<%= project._id %>/tasks/<%= task._id %>/edit"
                           class="text-[10px] font-bold uppercase text-neo-ink bg-neo-warning border-2 border-neo-ink px-2 py-1 shadow-neo-sm hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Edit</a>
                         <form action="/projects/<%= project._id %>/tasks/<%= task._id %>?_method=DELETE" method="POST"
@@ -222,8 +280,11 @@
                 <% } %>
                   <% } else { %>
                     <div class="text-center py-12 border-2 border-dashed border-neo-ink/20 rounded-none">
-                      <p class="text-sm font-bold uppercase text-neo-ink-light">No tasks yet. Add one above to get
-                        started!</p>
+                      <p class="text-sm font-bold uppercase text-neo-ink-light">No tasks found matching your filters.
+                      </p>
+                      <a href="/projects/<%= project._id %>"
+                        class="mt-2 inline-block text-xs font-bold uppercase text-neo-primary hover:underline">Clear
+                        Filters</a>
                     </div>
                     <% } %>
           </div>

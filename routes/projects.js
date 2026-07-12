@@ -11,7 +11,7 @@ const taskRoutes = require("./tasks");
 
 router
   .route("/")
-  .get(projects.index)
+  .get(isLoggedIn, projects.index)
   .post(isLoggedIn, validateProject, projects.createProject);
 
 router.route("/new").get(isLoggedIn, projects.renderNewForm);

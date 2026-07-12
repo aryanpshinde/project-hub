@@ -4,6 +4,7 @@ module.exports.projectSchema = Joi.object({
   project: Joi.object({
     title: Joi.string().required(),
     description: Joi.string().allow("").optional(),
+    status: Joi.string().valid("active", "completed", "archived").optional(),
   }).required(),
 });
 

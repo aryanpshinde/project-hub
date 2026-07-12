@@ -4,8 +4,31 @@ const User = require("../models/user");
 const Comment = require("../models/comment");
 
 module.exports.index = async (req, res) => {
-  const projects = await Project.find({});
-  res.render("projects/index", { projects, title: "Projects" });
+  const { role, status } = req.query;
+
+  const query = { $or: [{ owner: req.user._id }, { members: req.user._id }] };
+
+  if (role === "owned") {
+    query.owner = req.user._id;
+    delete query.$or;
+  } else if (role === "shared") {
+    query.members = req.user._id;
+    delete query.$or;
+  }
+
+  if (status && ["active", "completed", "archived"].includes(status)) {
+    query.status = status;
+  }
+
+  const projects = await Project.find(query)
+    .populate("owner")
+    .populate("members");
+
+  res.render("projects/index", {
+    projects,
+    title: "Projects",
+    query: req.query,
+  });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -24,10 +47,42 @@ module.exports.showProject = async (req, res) => {
   const project = await Project.findById(req.params.id)
     .populate("owner")
     .populate("members");
-  const tasks = await Task.find({ project: project._id })
+
+  const { taskStatus, priority, assignedTo, sort } = req.query;
+  const taskQuery = { project: project._id };
+
+  if (taskStatus && ["todo", "in-progress", "done"].includes(taskStatus)) {
+    taskQuery.status = taskStatus;
+  }
+
+  if (priority && ["low", "medium", "high"].includes(priority)) {
+    taskQuery.priority = priority;
+  }
+
+  if (assignedTo) {
+    if (assignedTo === "unassigned") {
+      taskQuery.assignedTo = null;
+    } else if (/^[0-9a-fA-F]{24}$/.test(assignedTo)) {
+      taskQuery.assignedTo = assignedTo;
+    }
+  }
+
+  let sortOptions = { createdAt: -1 };
+  if (sort === "dueDateAsc") sortOptions = { dueDate: 1 };
+  else if (sort === "dueDateDesc") sortOptions = { dueDate: -1 };
+  else if (sort === "priority") sortOptions = { priority: -1 };
+
+  const tasks = await Task.find(taskQuery)
+    .sort(sortOptions)
     .populate("createdBy")
     .populate("assignedTo");
-  res.render("projects/show", { project, tasks, title: project.title });
+
+  res.render("projects/show", {
+    project,
+    tasks,
+    title: project.title,
+    query: req.query,
+  });
 };
 
 module.exports.renderEditForm = async (req, res) => {

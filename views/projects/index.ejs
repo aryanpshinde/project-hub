@@ -2,7 +2,7 @@
   <div class="max-w-screen-xl mx-auto px-4 py-8">
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-4xl font-black uppercase tracking-tight text-neo-ink">
-        All Projects
+        My Projects
       </h1>
       <a href="/projects/new"
         class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-5 py-2.5 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
@@ -14,17 +14,76 @@
       </a>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <% for (let p of projects) { %>
-        <a href="/projects/<%= p._id %>"
-          class="bg-neo-surface block p-6 border-2 border-neo-ink shadow-neo rounded-none transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg">
-          <h5 class="mb-3 text-xl font-black uppercase tracking-tight text-neo-ink leading-none">
-            <%= p.title %>
-          </h5>
-          <p class="text-neo-ink-light font-medium">
-            <%= p.description || 'No description provided.' %>
-          </p>
+    <form method="GET" action="/projects"
+      class="mb-8 p-4 bg-neo-surface border-2 border-neo-ink shadow-neo-sm rounded-none grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+      <div>
+        <label for="role" class="block mb-2 text-xs font-black uppercase tracking-widest text-neo-ink">Ownership</label>
+        <select name="role" id="role"
+          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+          <option value="">All Projects</option>
+          <option value="owned" <%=query.role==='owned' ? 'selected' : '' %>>Owned by me</option>
+          <option value="shared" <%=query.role==='shared' ? 'selected' : '' %>>Shared with me</option>
+        </select>
+      </div>
+      <div>
+        <label for="status" class="block mb-2 text-xs font-black uppercase tracking-widest text-neo-ink">Status</label>
+        <select name="status" id="status"
+          class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+          <option value="">All Statuses</option>
+          <option value="active" <%=query.status==='active' ? 'selected' : '' %>>Active</option>
+          <option value="completed" <%=query.status==='completed' ? 'selected' : '' %>>Completed</option>
+          <option value="archived" <%=query.status==='archived' ? 'selected' : '' %>>Archived</option>
+        </select>
+      </div>
+      <div class="flex gap-2">
+        <button type="submit"
+          class="flex-1 inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
+          Apply
+        </button>
+        <a href="/projects"
+          class="inline-flex items-center justify-center bg-neo-surface text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-bg active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
+          Clear
         </a>
-        <% } %>
+      </div>
+    </form>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <% if (projects.length> 0) { %>
+        <% for (let p of projects) { %>
+          <a href="/projects/<%= p._id %>"
+            class="bg-neo-surface block p-6 border-2 border-neo-ink shadow-neo rounded-none transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg relative">
+
+            <% if (p.status==='completed' ) { %>
+              <span
+                class="absolute top-4 right-4 inline-block bg-green-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Done</span>
+              <% } else if (p.status==='archived' ) { %>
+                <span
+                  class="absolute top-4 right-4 inline-block bg-gray-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Archived</span>
+                <% } %>
+
+                  <h5 class="mb-3 text-xl font-black uppercase tracking-tight text-neo-ink leading-none pr-16">
+                    <%= p.title %>
+                  </h5>
+                  <p class="text-neo-ink-light font-medium">
+                    <%= p.description || 'No description provided.' %>
+                  </p>
+                  <div class="mt-4 flex items-center gap-2 text-[11px] font-bold uppercase text-neo-ink-light">
+                    <span>Owner: <%= p.owner.username %></span>
+                    <span>•</span>
+                    <span>
+                      <%= p.members.length %> member<%= p.members.length !==1 ? 's' : '' %>
+                    </span>
+                  </div>
+          </a>
+          <% } %>
+            <% } else { %>
+              <div
+                class="col-span-full text-center py-12 border-2 border-dashed border-neo-ink/20 rounded-none bg-neo-surface">
+                <p class="text-sm font-bold uppercase text-neo-ink-light">No projects found matching your filters.</p>
+                <a href="/projects"
+                  class="mt-4 inline-block text-xs font-bold uppercase text-neo-primary hover:underline">Clear
+                  Filters</a>
+              </div>
+              <% } %>
     </div>
   </div>
