@@ -3,12 +3,21 @@ const Task = require("../models/task");
 
 module.exports.renderDashboard = async (req, res, next) => {
   const userId = req.user._id;
-  const ownedProjects = await Project.find({ owner: userId }).populate(
-    "members",
-  );
-  const memberProjects = await Project.find({ members: userId }).populate(
-    "owner",
-  );
+
+  const ownedProjects = await Project.find({
+    owner: userId,
+    status: { $ne: "archived" },
+  })
+    .sort({ updatedAt: -1 })
+    .populate("members");
+
+  const memberProjects = await Project.find({
+    members: userId,
+    status: { $ne: "archived" },
+  })
+    .sort({ updatedAt: -1 })
+    .populate("owner");
+
   const assignedTasks = await Task.find({ assignedTo: userId }).populate(
     "project",
   );

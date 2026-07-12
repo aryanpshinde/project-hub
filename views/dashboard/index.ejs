@@ -1,5 +1,4 @@
 <% layout('layouts/boilerplate') %>
-
   <div class="max-w-screen-xl mx-auto px-4 py-8">
     <div class="mb-8">
       <h1 class="text-4xl font-black uppercase tracking-tight text-neo-ink">
@@ -120,18 +119,27 @@
               <div class="space-y-3">
                 <% for (let project of ownedProjects) { %>
                   <a href="/projects/<%= project._id %>"
-                    class="block p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg">
-                    <h3 class="font-bold text-neo-ink text-lg mb-2">
-                      <%= project.title %>
-                    </h3>
-                    <p class="text-sm text-neo-ink-light mb-3">
-                      <%= project.description || 'No description' %>
-                    </p>
-                    <div class="flex items-center gap-2 text-xs font-bold uppercase text-neo-ink-light">
-                      <span>
-                        <%= project.members.length %> member<%= project.members.length !==1 ? 's' : '' %>
-                      </span>
-                    </div>
+                    class="block p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg relative">
+
+                    <% if (project.status==='completed' ) { %>
+                      <span
+                        class="absolute top-4 right-4 inline-block bg-green-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Done</span>
+                      <% } else if (project.status==='archived' ) { %>
+                        <span
+                          class="absolute top-4 right-4 inline-block bg-gray-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Archived</span>
+                        <% } %>
+
+                          <h3 class="font-bold text-neo-ink text-lg mb-2 pr-16">
+                            <%= project.title %>
+                          </h3>
+                          <p class="text-sm text-neo-ink-light mb-3">
+                            <%= project.description || 'No description' %>
+                          </p>
+                          <div class="flex items-center gap-2 text-xs font-bold uppercase text-neo-ink-light">
+                            <span>
+                              <%= project.members.length %> member<%= project.members.length !==1 ? 's' : '' %>
+                            </span>
+                          </div>
                   </a>
                   <% } %>
               </div>
@@ -155,16 +163,25 @@
               <div class="space-y-3">
                 <% for (let project of memberProjects) { %>
                   <a href="/projects/<%= project._id %>"
-                    class="block p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg">
-                    <h3 class="font-bold text-neo-ink text-lg mb-2">
-                      <%= project.title %>
-                    </h3>
-                    <p class="text-sm text-neo-ink-light mb-3">
-                      <%= project.description || 'No description' %>
-                    </p>
-                    <div class="flex items-center gap-2 text-xs font-bold uppercase text-neo-ink-light">
-                      <span>Owner: <%= project.owner.username %></span>
-                    </div>
+                    class="block p-4 bg-neo-bg border-2 border-neo-ink shadow-neo-sm rounded-none transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo-lg relative">
+
+                    <% if (project.status==='completed' ) { %>
+                      <span
+                        class="absolute top-4 right-4 inline-block bg-green-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Done</span>
+                      <% } else if (project.status==='archived' ) { %>
+                        <span
+                          class="absolute top-4 right-4 inline-block bg-gray-200 border border-neo-ink text-[10px] font-black uppercase px-2 py-0.5">Archived</span>
+                        <% } %>
+
+                          <h3 class="font-bold text-neo-ink text-lg mb-2 pr-16">
+                            <%= project.title %>
+                          </h3>
+                          <p class="text-sm text-neo-ink-light mb-3">
+                            <%= project.description || 'No description' %>
+                          </p>
+                          <div class="flex items-center gap-2 text-xs font-bold uppercase text-neo-ink-light">
+                            <span>Owner: <%= project.owner.username %></span>
+                          </div>
                   </a>
                   <% } %>
               </div>
