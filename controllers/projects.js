@@ -6,21 +6,21 @@ const Comment = require("../models/comment");
 module.exports.index = async (req, res) => {
   const { role, status } = req.query;
 
-  const query = { $or: [{ owner: req.user._id }, { members: req.user._id }] };
+  const filter = { $or: [{ owner: req.user._id }, { members: req.user._id }] };
 
   if (role === "owned") {
-    query.owner = req.user._id;
-    delete query.$or;
+    filter.owner = req.user._id;
+    delete filter.$or;
   } else if (role === "shared") {
-    query.members = req.user._id;
-    delete query.$or;
+    filter.members = req.user._id;
+    delete filter.$or;
   }
 
   if (status && ["active", "completed", "archived"].includes(status)) {
-    query.status = status;
+    filter.status = status;
   }
 
-  const projects = await Project.find(query)
+  const projects = await Project.find(filter)
     .populate("owner")
     .populate("members");
 
@@ -49,21 +49,21 @@ module.exports.showProject = async (req, res) => {
     .populate("members");
 
   const { taskStatus, priority, assignedTo, sort } = req.query;
-  const taskQuery = { project: project._id };
+  const taskFilter = { project: project._id };
 
   if (taskStatus && ["todo", "in-progress", "done"].includes(taskStatus)) {
-    taskQuery.status = taskStatus;
+    taskFilter.status = taskStatus;
   }
 
   if (priority && ["low", "medium", "high"].includes(priority)) {
-    taskQuery.priority = priority;
+    taskFilter.priority = priority;
   }
 
   if (assignedTo) {
     if (assignedTo === "unassigned") {
-      taskQuery.assignedTo = null;
+      taskFilter.assignedTo = null;
     } else if (/^[0-9a-fA-F]{24}$/.test(assignedTo)) {
-      taskQuery.assignedTo = assignedTo;
+      taskFilter.assignedTo = assignedTo;
     }
   }
 
@@ -72,7 +72,7 @@ module.exports.showProject = async (req, res) => {
   else if (sort === "dueDateDesc") sortOptions = { dueDate: -1 };
   else if (sort === "priority") sortOptions = { priority: -1 };
 
-  const tasks = await Task.find(taskQuery)
+  const tasks = await Task.find(taskFilter)
     .sort(sortOptions)
     .populate("createdBy")
     .populate("assignedTo");
