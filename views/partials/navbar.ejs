@@ -31,10 +31,15 @@
               <%= currentUser.email %>
             </span>
           </div>
+
           <ul class="p-2 text-sm text-neo-ink font-bold uppercase" aria-labelledby="user-menu-button">
             <li>
               <a href="/dashboard"
                 class="flex items-center w-full p-2 hover:bg-neo-warning hover:text-neo-ink rounded-none transition-colors">Dashboard</a>
+            </li>
+            <li>
+              <a href="/profile"
+                class="flex items-center w-full p-2 hover:bg-neo-warning hover:text-neo-ink rounded-none transition-colors">Profile</a>
             </li>
             <li>
               <form action="/logout" method="POST" class="w-full">

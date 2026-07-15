@@ -50,3 +50,42 @@ module.exports.logout = (req, res, next) => {
     res.redirect("/projects");
   });
 };
+
+module.exports.renderProfile = (req, res) => {
+  res.render("users/profile", { title: "Profile" });
+};
+
+module.exports.updateProfile = async (req, res) => {
+  const { email, username } = req.body.user;
+  const userId = req.user._id;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { email, username },
+      { new: true, runValidators: true },
+    );
+
+    req.login(updatedUser, (err) => {
+      if (err) {
+        req.flash("error", "Profile updated, but please log in again.");
+        return res.redirect("/login");
+      }
+      req.flash("success", "Profile updated successfully!");
+      res.redirect("/profile");
+    });
+  } catch (e) {
+    if (e.name === "ValidationError") {
+      req.flash("error", "Invalid input. Please check your data.");
+    } else if (e.code === 11000) {
+      req.flash("error", "Email or username already exists.");
+    } else {
+      const errorMessage =
+        process.env.NODE_ENV === "production"
+          ? "Oops! something went wrong at our end. Please try again"
+          : e.message;
+      req.flash("error", errorMessage);
+    }
+    res.redirect("/profile");
+  }
+};

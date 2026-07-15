@@ -30,3 +30,10 @@ module.exports.commentSchema = Joi.object({
     body: Joi.string().required(),
   }).required(),
 });
+
+module.exports.profileSchema = Joi.object({
+  user: Joi.object({
+    email: Joi.string().email().required(),
+    username: Joi.string().required().trim(),
+  }).required(),
+});
