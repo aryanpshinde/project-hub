@@ -37,3 +37,9 @@ module.exports.profileSchema = Joi.object({
     username: Joi.string().required().trim(),
   }).required(),
 });
+
+module.exports.addMemberSchema = Joi.object({
+  member: Joi.object({
+    usernameOrEmail: Joi.string().required().trim(),
+  }).required(),
+});

@@ -5,6 +5,7 @@ const {
   taskStatusSchema,
   commentSchema,
   profileSchema,
+  addMemberSchema,
 } = require("./schemas");
 const ExpressError = require("./utils/ExpressError");
 const Task = require("./models/task");
@@ -42,6 +43,16 @@ module.exports.validateComment = (req, res, next) => {
 
 module.exports.validateProfile = (req, res, next) => {
   const { error } = profileSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+module.exports.validateAddMember = (req, res, next) => {
+  const { error } = addMemberSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);

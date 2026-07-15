@@ -94,6 +94,7 @@ module.exports.updateProject = async (req, res) => {
   const { id } = req.params;
   const project = await Project.findByIdAndUpdate(id, req.body.project, {
     new: true,
+    runValidators: true,
   });
   req.flash("success", "Project updated successfully!");
   res.redirect(`/projects/${project._id}`);
@@ -114,7 +115,7 @@ module.exports.deleteProject = async (req, res) => {
 
 module.exports.addMember = async (req, res) => {
   const { id } = req.params;
-  const { usernameOrEmail } = req.body;
+  const { usernameOrEmail } = req.body.member;
   const project = await Project.findById(id);
   const userToAdd = await User.findOne({
     $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],

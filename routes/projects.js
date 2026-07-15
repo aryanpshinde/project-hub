@@ -6,6 +6,7 @@ const {
   isLoggedIn,
   isProjectOwner,
   isProjectParticipant,
+  validateAddMember,
 } = require("../middleware");
 const taskRoutes = require("./tasks");
 
@@ -20,7 +21,13 @@ router
   .route("/:id/edit")
   .get(isLoggedIn, isProjectOwner, projects.renderEditForm);
 
-router.post("/:id/members", isLoggedIn, isProjectOwner, projects.addMember);
+router.post(
+  "/:id/members",
+  isLoggedIn,
+  isProjectOwner,
+  validateAddMember,
+  projects.addMember,
+);
 router.delete(
   "/:id/members/:userId",
   isLoggedIn,

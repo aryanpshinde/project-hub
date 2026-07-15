@@ -83,7 +83,7 @@
           <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
             <form action="/projects/<%= project._id %>/members" method="POST"
               class="flex gap-2 pt-4 border-t-2 border-dashed border-neo-ink/20">
-              <input type="text" name="usernameOrEmail" placeholder="Username/Email" required
+              <input type="text" name="member[usernameOrEmail]" placeholder="Username/Email" required
                 class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-3 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-white rounded-none transition-colors">
               <button type="submit"
                 class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-[10px] px-3 py-2 rounded-none transition-all hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">Add</button>
