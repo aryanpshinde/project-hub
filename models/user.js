@@ -9,8 +9,23 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
+    avatar: {
+      url: {
+        type: String,
+        default:
+          "https://res.cloudinary.com/dxjv8qg0f/image/upload/v1690911685/avatars/default-avatar.png",
+      },
+      fileId: {
+        type: String,
+        default: "default-avatar",
+      },
+      name: {
+        type: String,
+        required: true,
+        default: "default-avatar",
+      },
+    },
   },
-
   {
     timestamps: true,
   },

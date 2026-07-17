@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate') %>
-  <div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="max-w-screen-xl mx-auto px-4 py-8">
     <a href="/dashboard"
       class="inline-flex items-center text-sm font-bold uppercase tracking-wide text-neo-ink hover:text-neo-primary transition-colors mb-6">
       <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -9,35 +9,83 @@
       Back to dashboard
     </a>
 
-    <div class="bg-neo-surface p-8 md:p-10 border-2 border-neo-ink shadow-neo rounded-none">
-      <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none">
-        <span class="text-xs font-black uppercase tracking-widest text-white">My Profile</span>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-1 space-y-6">
+        <div class="bg-neo-surface p-6 md:p-8 border-2 border-neo-ink shadow-neo rounded-none text-center">
+          <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none">
+            <span class="text-xs font-black uppercase tracking-widest text-white">My Profile</span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <img
+              src="<%= currentUser.avatar && currentUser.avatar.fileId !== 'default-avatar' ? currentUser.avatar.url : 'https://ui-avatars.com/api/?name=' + currentUser.username + '&background=2563eb&color=fff&bold=true&size=128' %>"
+              alt="Avatar" class="w-32 h-32 mb-4 border-2 border-neo-ink shadow-neo-sm object-cover">
+            <h2 class="text-2xl font-black uppercase tracking-tight text-neo-ink">
+              <%= currentUser.username %>
+            </h2>
+            <p class="text-sm text-neo-ink-light font-medium mt-1">
+              <%= currentUser.email %>
+            </p>
+          </div>
+        </div>
       </div>
 
-      <h1 class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
-        Update Details
-      </h1>
+      <div class="lg:col-span-2 space-y-6">
+        <div class="bg-neo-surface p-6 md:p-8 border-2 border-neo-ink shadow-neo rounded-none">
+          <h3 class="text-xl font-black uppercase tracking-wide text-neo-ink mb-6">Profile Picture</h3>
 
-      <form action="/profile?_method=PUT" method="POST" class="space-y-6">
-        <div>
-          <label for="username"
-            class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Username</label>
-          <input type="text" id="username" name="user[username]" value="<%= currentUser.username %>" required
-            class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors" />
+          <div class="flex flex-col sm:flex-row gap-4 items-end">
+            <form action="/profile/avatar" method="POST" enctype="multipart/form-data"
+              class="flex-1 w-full flex flex-col sm:flex-row gap-4 items-end">
+              <div class="flex-1 w-full">
+                <label for="avatar" class="block mb-2 text-xs font-bold uppercase tracking-wide text-neo-ink">Choose
+                  Image</label>
+                <input type="file" id="avatar" name="avatar" accept="image/*" required
+                  class="block w-full text-sm text-neo-ink border-2 border-neo-ink bg-neo-bg shadow-neo-sm file:mr-4 file:py-2.5 file:px-6 file:border-r-2 file:border-neo-ink file:bg-neo-warning file:text-neo-ink file:font-black file:uppercase file:text-xs file:cursor-pointer hover:file:bg-yellow-300 file:transition-all rounded-none focus:outline-none focus:bg-neo-surface">
+              </div>
+              <button type="submit"
+                class="w-full sm:w-auto inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-5 py-2.5 transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">
+                Upload
+              </button>
+            </form>
+
+            <% if (currentUser.avatar && currentUser.avatar.fileId !=='default-avatar' ) { %>
+              <form action="/profile/avatar?_method=DELETE" method="POST">
+                <button type="submit"
+                  class="w-full sm:w-auto inline-flex items-center justify-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-5 py-2.5 transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">
+                  Remove
+                </button>
+              </form>
+              <% } %>
+          </div>
         </div>
 
-        <div>
-          <label for="email" class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Email</label>
-          <input type="email" id="email" name="user[email]" value="<%= currentUser.email %>" required
-            class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors" />
-        </div>
+        <div class="bg-neo-surface p-6 md:p-8 border-2 border-neo-ink shadow-neo rounded-none">
+          <h3 class="mb-6 text-xl font-black uppercase tracking-tight text-neo-ink leading-none">Update Details</h3>
 
-        <div class="pt-4">
-          <button type="submit"
-            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full">
-            Save Changes
-          </button>
+          <form action="/profile?_method=PUT" method="POST" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="username"
+                  class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Username</label>
+                <input type="text" id="username" name="user[username]" value="<%= currentUser.username %>" required
+                  class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors" />
+              </div>
+              <div>
+                <label for="email"
+                  class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Email</label>
+                <input type="email" id="email" name="user[email]" value="<%= currentUser.email %>" required
+                  class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors" />
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit"
+                class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full md:w-auto">
+                Save Changes
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>

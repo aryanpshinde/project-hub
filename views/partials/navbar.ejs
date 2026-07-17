@@ -8,7 +8,6 @@
       <span
         class="self-center text-2xl text-neo-ink font-black uppercase tracking-tight whitespace-nowrap">ProjectHub</span>
     </a>
-
     <div class="flex items-center md:order-2 space-x-3 md:space-x-0">
       <% if (currentUser) { %>
         <button type="button"
@@ -16,11 +15,10 @@
           id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
           data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
-          <img class="w-10 h-10 rounded-none"
-            src="https://ui-avatars.com/api/?name=<%= currentUser.username %>&background=2563eb&color=fff&bold=true"
+          <img class="w-10 h-10 rounded-none object-cover"
+            src="<%= currentUser.avatar && currentUser.avatar.fileId !== 'default-avatar' ? currentUser.avatar.url : 'https://ui-avatars.com/api/?name=' + currentUser.username + '&background=2563eb&color=fff&bold=true&size=128' %>"
             alt="user photo" />
         </button>
-
         <div class="z-50 hidden absolute mt-2 bg-neo-surface border-2 border-neo-ink shadow-neo w-48 rounded-none"
           id="user-dropdown">
           <div class="px-4 py-3 text-sm border-b-2 border-neo-ink bg-neo-bg">
@@ -31,7 +29,6 @@
               <%= currentUser.email %>
             </span>
           </div>
-
           <ul class="p-2 text-sm text-neo-ink font-bold uppercase" aria-labelledby="user-menu-button">
             <li>
               <a href="/dashboard"
@@ -61,7 +58,6 @@
             Register
           </a>
           <% } %>
-
             <button data-collapse-toggle="navbar-user" type="button"
               class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-neo-ink bg-neo-surface border-2 border-neo-ink shadow-neo-sm rounded-none md:hidden hover:bg-neo-bg focus:outline-none focus:ring-2 focus:ring-neo-primary active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all"
               aria-controls="navbar-user" aria-expanded="false">
@@ -72,7 +68,6 @@
               </svg>
             </button>
     </div>
-
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
       <ul
         class="font-black uppercase text-sm tracking-wide flex flex-col p-0 mt-4 border-2 border-neo-ink shadow-neo bg-neo-surface md:flex-row md:space-x-4 md:mt-0 md:border-0 md:shadow-none md:bg-transparent rounded-none overflow-hidden">

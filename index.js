@@ -1,3 +1,5 @@
+require("dotenv").config({ quiet: true });
+
 const express = require("express");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
@@ -15,8 +17,6 @@ const User = require("./models/user");
 const projectRoutes = require("./routes/projects");
 const userRoutes = require("./routes/users");
 const dashboardRoutes = require("./routes/dashboard");
-
-require("dotenv").config({ quiet: true });
 
 mongoose
   .connect(process.env.DB_URL)

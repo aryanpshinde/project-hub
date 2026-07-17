@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { client, upload } = require("../utils/imagekit");
 
 module.exports.renderRegister = (req, res) => {
   res.render("users/register", { title: "Register" });
@@ -86,6 +87,72 @@ module.exports.updateProfile = async (req, res) => {
           : e.message;
       req.flash("error", errorMessage);
     }
+    res.redirect("/profile");
+  }
+};
+
+module.exports.uploadProfilePicture = async (req, res) => {
+  if (!req.file) {
+    req.flash("error", "No file uploaded.");
+    return res.redirect("/profile");
+  }
+
+  try {
+    if (
+      req.user.avatar &&
+      req.user.avatar.fileId &&
+      req.user.avatar.fileId !== "default-avatar"
+    ) {
+      await client.files.delete(req.user.avatar.fileId);
+    }
+
+    const uploadResponse = await client.files.upload({
+      file: req.file.buffer.toString("base64"),
+      fileName: `${req.user._id}_${req.file.originalname}`,
+      folder: "/project-hub/avatars",
+    });
+
+    req.user.avatar.url = uploadResponse.url;
+    req.user.avatar.fileId = uploadResponse.fileId;
+    req.user.avatar.name = uploadResponse.name;
+    await req.user.save();
+
+    req.flash("success", "Profile picture updated successfully!");
+    res.redirect("/profile");
+  } catch (e) {
+    const errorMessage =
+      process.env.NODE_ENV === "production"
+        ? "Oops! something went wrong at our end. Please try again"
+        : e.message;
+    req.flash("error", errorMessage);
+    res.redirect("/profile");
+  }
+};
+
+module.exports.deleteProfilePicture = async (req, res) => {
+  try {
+    if (
+      req.user.avatar &&
+      req.user.avatar.fileId &&
+      req.user.avatar.fileId !== "default-avatar"
+    ) {
+      await client.files.delete(req.user.avatar.fileId);
+    }
+
+    req.user.avatar.url =
+      "https://res.cloudinary.com/dxjv8qg0f/image/upload/v1690911685/avatars/default-avatar.png";
+    req.user.avatar.fileId = "default-avatar";
+    req.user.avatar.name = "default-avatar";
+    await req.user.save();
+
+    req.flash("success", "Profile picture deleted successfully!");
+    res.redirect("/profile");
+  } catch (e) {
+    const errorMessage =
+      process.env.NODE_ENV === "production"
+        ? "Oops! something went wrong at our end. Please try again"
+        : e.message;
+    req.flash("error", errorMessage);
     res.redirect("/profile");
   }
 };
