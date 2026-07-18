@@ -11,6 +11,8 @@ const { MongoStore, createWebCryptoAdapter } = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const configureHelmet = require("./utils/helmet");
+const sanitizeInput = require("./utils/sanitize");
 
 const User = require("./models/user");
 
@@ -34,9 +36,13 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(configureHelmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
+app.use(sanitizeInput);
+
+app.set("trust proxy", 1);
 
 const storeMongo = MongoStore.create({
   mongoUrl: process.env.DB_URL,
@@ -99,7 +105,9 @@ app.use((err, req, res, next) => {
     message,
     stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
   };
-  res.status(statusCode).render("error", { err: safeErr, title: "Error" });
+  res
+    .status(statusCode)
+    .render("error", { err: safeErr, title: "Error", currentUser: req.user });
 });
 
 const port = process.env.PORT;

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: projecthub
+    env: node
+    buildCommand: pnpm install && pnpm run build:css
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "10000"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DB_URL
+        sync: false
+      - key: IMAGEKIT_PUBLIC_KEY
+        sync: false
+      - key: IMAGEKIT_PRIVATE_KEY
+        sync: false
+      - key: IMAGEKIT_URL_ENDPOINT
+        sync: false
