@@ -4,9 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2563eb" />
+
   <title>
     <%= typeof title !=='undefined' ? `${title} - ProjectHub` : "ProjectHub" %>
   </title>
+  <meta name="description"
+    content="<%= typeof description !== 'undefined' ? description : 'The no-nonsense project management tool for teams who want to focus on the work, not the software.' %>" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%= typeof title !== 'undefined' ? `${title} - ProjectHub` : 'ProjectHub' %>" />
+  <meta property="og:description"
+    content="<%= typeof description !== 'undefined' ? description : 'The no-nonsense project management tool for teams who want to focus on the work, not the software.' %>" />
+  <meta property="og:image"
+    content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://ui-avatars.com/api/?name=ProjectHub&background=2563eb&color=fff&bold=true&size=512' %>" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<%= typeof title !== 'undefined' ? `${title} - ProjectHub` : 'ProjectHub' %>" />
+  <meta name="twitter:description"
+    content="<%= typeof description !== 'undefined' ? description : 'The no-nonsense project management tool for teams who want to focus on the work, not the software.' %>" />
+  <meta name="twitter:image"
+    content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://ui-avatars.com/api/?name=ProjectHub&background=2563eb&color=fff&bold=true&size=512' %>" />
+
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%232563eb%22 stroke=%22%231a1a1a%22 stroke-width=%228%22/><text x=%2250%22 y=%2275%22 font-size=%2270%22 font-family=%22sans-serif%22 font-weight=%22900%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>" />
+
   <link rel="stylesheet" href="/stylesheets/app.css" />
 </head>
 
@@ -16,7 +38,6 @@
       <%- include('../partials/flash') %>
         <%- body %>
     </main>
-
     <%- include("../partials/footer") %>
       <script src="/javascripts/flash.js"></script>
       <script src="/javascripts/flowbite.min.js"></script>

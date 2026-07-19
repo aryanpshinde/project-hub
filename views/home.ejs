@@ -2,6 +2,7 @@
 
   <section class="bg-neo-surface w-full border-b-2 border-neo-ink">
     <div class="max-w-screen-xl mx-auto px-4 py-16 md:py-24 text-center">
+
       <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-6 rounded-none">
         <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Welcome to ProjectHub</span>
       </div>
@@ -13,24 +14,100 @@
       </h1>
 
       <p class="mb-10 text-lg md:text-xl font-medium text-neo-ink-light max-w-2xl mx-auto">
-        The no-nonsense project management tool for teams who want to focus on the
-        work, not the software.
+        The no-nonsense project management tool for teams who want to focus on the work, not the software.
       </p>
 
       <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-        <a href="/projects"
-          class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
-          View Projects
-          <svg class="w-5 h-5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-            fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M19 12H5m14 0-4 4m4-4-4-4" />
-          </svg>
-        </a>
+        <% if (typeof currentUser !=='undefined' && currentUser) { %>
+          <a href="/dashboard"
+            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
+            Go to Dashboard
+            <svg class="w-5 h-5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M19 12H5m14 0-4 4m4-4-4-4" />
+            </svg>
+          </a>
+          <a href="/projects/new"
+            class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-yellow-300 active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
+            Create New Project
+          </a>
+          <% } else { %>
+            <a href="/register"
+              class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
+              Get Started Free
+              <svg class="w-5 h-5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M19 12H5m14 0-4 4m4-4-4-4" />
+              </svg>
+            </a>
+            <a href="/login"
+              class="inline-flex items-center justify-center bg-neo-surface text-neo-ink border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-neo-bg active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
+              Log In
+            </a>
+            <% } %>
+      </div>
+    </div>
+  </section>
 
-        <a href="/projects/new"
-          class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo font-black uppercase tracking-wide text-base px-6 py-3 rounded-none transition-all hover:bg-yellow-300 active:translate-x-1 active:translate-y-1 active:shadow-neo-none">
-          Create New
-        </a>
+  <section class="bg-neo-bg w-full py-16 md:py-24">
+    <div class="max-w-screen-xl mx-auto px-4">
+
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink">
+          Everything you need to <span class="bg-neo-warning px-2 border-2 border-neo-ink shadow-neo-sm">ship</span>
+        </h2>
+        <p class="mt-4 text-neo-ink-light font-medium max-w-xl mx-auto">
+          Stop wrestling with complex tools. ProjectHub gives you the essentials, wrapped in a clean, fast interface.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div
+          class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none transition-all hover:-translate-y-1 hover:shadow-neo-lg">
+          <div
+            class="w-12 h-12 bg-neo-primary border-2 border-neo-ink shadow-neo-sm flex items-center justify-center text-white mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-width="3"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+              </path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase text-neo-ink mb-2">Team Workspaces</h3>
+          <p class="text-neo-ink-light font-medium">Create projects and invite your team by username or email. Strict
+            role-based access control keeps things secure.</p>
+        </div>
+
+        <div
+          class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none transition-all hover:-translate-y-1 hover:shadow-neo-lg">
+          <div
+            class="w-12 h-12 bg-neo-success border-2 border-neo-ink shadow-neo-sm flex items-center justify-center text-neo-ink mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-width="3"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+              </path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase text-neo-ink mb-2">Task Management</h3>
+          <p class="text-neo-ink-light font-medium">Assign tasks, set priorities, and track status. Never lose track of
+            a deadline with our actionable dashboard.</p>
+        </div>
+
+        <div
+          class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none transition-all hover:-translate-y-1 hover:shadow-neo-lg">
+          <div
+            class="w-12 h-12 bg-neo-warning border-2 border-neo-ink shadow-neo-sm flex items-center justify-center text-neo-ink mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-width="3"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.57 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+              </path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase text-neo-ink mb-2">Nested Discussions</h3>
+          <p class="text-neo-ink-light font-medium">Leave comments directly on tasks. Keep the context exactly where the
+            work is happening, without the noise.</p>
+        </div>
+
       </div>
     </div>
   </section>

@@ -8,13 +8,14 @@
       </svg>
       Back to projects
     </a>
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="lg:col-span-1 space-y-6">
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
           <div class="inline-block bg-neo-warning border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Project Details</span>
           </div>
-          <div class="flex items-center gap-2 mb-3">
+          <div class="flex items-center gap-2 mb-3 flex-wrap">
             <h1 class="text-2xl font-black uppercase tracking-tight text-neo-ink leading-none">
               <%= project.title %>
             </h1>
@@ -29,18 +30,31 @@
           <p class="mb-6 text-sm text-neo-ink-light font-medium leading-relaxed">
             <%= project.description || 'No description provided.' %>
           </p>
-          <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
-            <div class="flex items-center gap-3 pt-4 border-t-2 border-dashed border-neo-ink/20">
+          <% if (project.owner._id.equals(currentUser._id)) { %>
+            <div class="flex items-center gap-2 pt-4 border-t-2 border-dashed border-neo-ink/20">
               <a href="/projects/<%= project._id %>/edit"
-                class="inline-flex items-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">Edit</a>
+                class="w-9 h-9 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-neo-warning transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
+                title="Edit Project">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="square" stroke-linejoin="square" stroke-width="2"
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </a>
               <form action="/projects/<%= project._id %>?_method=DELETE" method="POST"
                 onsubmit="return confirm('Delete this project?');">
                 <button type="submit"
-                  class="inline-flex items-center bg-red-500 text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">Delete</button>
+                  class="w-9 h-9 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-red-200 text-red-600 hover:text-red-800 transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
+                  title="Delete Project">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="square" stroke-linejoin="square" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
               </form>
             </div>
             <% } %>
         </div>
+
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
           <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-white">Team</span>
@@ -69,28 +83,35 @@
                     </p>
                     <p class="text-[10px] font-bold uppercase text-neo-ink-light">Member</p>
                   </div>
-                  <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
+                  <% if (project.owner._id.equals(currentUser._id)) { %>
                     <form action="/projects/<%= project._id %>/members/<%= member._id %>?_method=DELETE" method="POST"
                       onsubmit="return confirm('Remove?');">
                       <button type="submit"
-                        class="text-[10px] font-bold uppercase text-red-600 hover:text-red-800 transition-colors">Remove</button>
+                        class="w-7 h-7 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-red-200 text-red-600 hover:text-red-800 transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
+                        title="Remove member">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="square" stroke-linejoin="square" stroke-width="3"
+                            d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
                     </form>
                     <% } %>
                 </div>
                 <% } %>
                   <% } %>
           </div>
-          <% if (currentUser && project.owner._id.equals(currentUser._id)) { %>
+          <% if (project.owner._id.equals(currentUser._id)) { %>
             <form action="/projects/<%= project._id %>/members" method="POST"
               class="flex gap-2 pt-4 border-t-2 border-dashed border-neo-ink/20">
               <input type="text" name="member[usernameOrEmail]" placeholder="Username/Email" required
-                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-3 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-white rounded-none transition-colors">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-3 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
               <button type="submit"
                 class="inline-flex items-center justify-center bg-neo-warning text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-[10px] px-3 py-2 rounded-none transition-all hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none whitespace-nowrap">Add</button>
             </form>
             <% } %>
         </div>
       </div>
+
       <div class="lg:col-span-2">
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none min-h-[500px]">
           <div class="flex items-center justify-between mb-6">
@@ -107,7 +128,7 @@
             <div class="col-span-2 md:col-span-1">
               <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Status</label>
               <select name="taskStatus"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
                 <option value="">All</option>
                 <option value="todo" <%=query.taskStatus==='todo' ? 'selected' : '' %>>Todo</option>
                 <option value="in-progress" <%=query.taskStatus==='in-progress' ? 'selected' : '' %>>In Progress
@@ -118,7 +139,7 @@
             <div class="col-span-2 md:col-span-1">
               <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Priority</label>
               <select name="priority"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
                 <option value="">All</option>
                 <option value="high" <%=query.priority==='high' ? 'selected' : '' %>>High</option>
                 <option value="medium" <%=query.priority==='medium' ? 'selected' : '' %>>Medium</option>
@@ -128,7 +149,7 @@
             <div class="col-span-2 md:col-span-1">
               <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Assignee</label>
               <select name="assignedTo"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
                 <option value="">All</option>
                 <option value="unassigned" <%=query.assignedTo==='unassigned' ? 'selected' : '' %>>Unassigned</option>
                 <option value="<%= project.owner._id %>" <%=query.assignedTo===project.owner._id.toString() ? 'selected'
@@ -146,7 +167,7 @@
             <div class="col-span-2 md:col-span-1">
               <label class="block mb-1 text-[10px] font-black uppercase text-neo-ink-light">Sort By</label>
               <select name="sort"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-xs font-medium block w-full px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none">
                 <option value="">Newest</option>
                 <option value="dueDateAsc" <%=query.sort==='dueDateAsc' ? 'selected' : '' %>>Due Date (Asc)</option>
                 <option value="dueDateDesc" <%=query.sort==='dueDateDesc' ? 'selected' : '' %>>Due Date (Desc)</option>
@@ -157,7 +178,12 @@
               <button type="submit"
                 class="flex-1 bg-neo-warning border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1.5 shadow-neo-sm hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Filter</button>
               <a href="/projects/<%= project._id %>"
-                class="bg-neo-surface border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1.5 shadow-neo-sm hover:bg-neo-bg active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">X</a>
+                class="w-8 h-8 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-neo-bg transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none rounded-none"
+                title="Clear Filters">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="square" stroke-linejoin="square" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </a>
             </div>
           </form>
 
@@ -165,11 +191,11 @@
             class="mb-6 p-4 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="md:col-span-2">
               <input type="text" name="task[title]" placeholder="Task title..." required
-                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:border-neo-primary rounded-none transition-colors">
             </div>
             <div>
               <select name="task[priority]"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
                 <option value="low">Low Priority</option>
                 <option value="medium" selected>Medium Priority</option>
                 <option value="high">High Priority</option>
@@ -177,11 +203,11 @@
             </div>
             <div>
               <input type="date" name="task[dueDate]"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
             </div>
             <div>
               <select name="task[assignedTo]"
-                class="bg-white border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
+                class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-2 shadow-neo-sm focus:outline-none focus:border-neo-primary rounded-none transition-colors">
                 <option value="">Unassigned</option>
                 <option value="<%= project.owner._id %>">
                   <%= project.owner.username %> (Owner)
@@ -201,6 +227,7 @@
                 Add Task</button>
             </div>
           </form>
+
           <div class="space-y-3">
             <% if (tasks && tasks.length> 0) { %>
               <% for (let task of tasks) { %>
@@ -250,28 +277,38 @@
                                 <% } %>
                       </div>
                     </div>
+
                     <div class="flex items-center gap-2 shrink-0">
-                      <% if (currentUser && (task.createdBy._id.equals(currentUser._id) ||
-                        project.owner._id.equals(currentUser._id) || (task.assignedTo &&
-                        task.assignedTo._id.equals(currentUser._id)))) { %>
+                      <% if (task.createdBy._id.equals(currentUser._id) || project.owner._id.equals(currentUser._id) ||
+                        (task.assignedTo && task.assignedTo._id.equals(currentUser._id))) { %>
                         <form action="/projects/<%= project._id %>/tasks/<%= task._id %>/status?_method=PATCH"
-                          method="POST" class="flex gap-1">
-                          <select name="task[status]"
-                            class="bg-white border-2 border-neo-ink text-neo-ink text-[10px] font-bold uppercase px-2 py-1 shadow-neo-sm focus:outline-none rounded-none">
+                          method="POST">
+                          <select name="task[status]" onchange="this.form.submit()"
+                            class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-[10px] font-bold uppercase px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none cursor-pointer h-8">
                             <option value="todo" <%=task.status==='todo' ? 'selected' : '' %>>Todo</option>
                             <option value="in-progress" <%=task.status==='in-progress' ? 'selected' : '' %>>Prog
                             </option>
                             <option value="done" <%=task.status==='done' ? 'selected' : '' %>>Done</option>
                           </select>
-                          <button type="submit"
-                            class="bg-neo-success border-2 border-neo-ink text-[10px] font-black uppercase px-2 py-1 shadow-neo-sm hover:bg-green-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Save</button>
                         </form>
                         <a href="/projects/<%= project._id %>/tasks/<%= task._id %>/edit"
-                          class="text-[10px] font-bold uppercase text-neo-ink bg-neo-warning border-2 border-neo-ink px-2 py-1 shadow-neo-sm hover:bg-yellow-300 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Edit</a>
+                          class="w-8 h-8 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-neo-warning transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none rounded-none"
+                          title="Edit Task">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="square" stroke-linejoin="square" stroke-width="2"
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                          </svg>
+                        </a>
                         <form action="/projects/<%= project._id %>/tasks/<%= task._id %>?_method=DELETE" method="POST"
                           onsubmit="return confirm('Delete?');">
                           <button type="submit"
-                            class="text-[10px] font-bold uppercase text-white bg-red-500 border-2 border-neo-ink px-2 py-1 shadow-neo-sm hover:bg-red-600 active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all rounded-none">Del</button>
+                            class="w-8 h-8 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-red-200 text-red-600 hover:text-red-800 transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none rounded-none"
+                            title="Delete Task">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="square" stroke-linejoin="square" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </form>
                         <% } %>
                     </div>

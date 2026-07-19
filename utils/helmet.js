@@ -1,7 +1,7 @@
 const helmet = require("helmet");
 
 const configureHelmet = () => {
-  const imgSrc = ["'self'", "https://ui-avatars.com"];
+  const imgSrc = ["'self'", "https://ui-avatars.com", "data:"];
 
   if (process.env.IMAGEKIT_URL_ENDPOINT) {
     imgSrc.push(process.env.IMAGEKIT_URL_ENDPOINT);

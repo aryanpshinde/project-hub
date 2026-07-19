@@ -14,16 +14,17 @@
         <span class="text-xs font-black uppercase tracking-widest text-neo-ink">Edit Task</span>
       </div>
 
-      <h1 class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">Update Task
+      <h1 class="mb-8 text-3xl md:text-4xl font-black uppercase tracking-tight text-neo-ink leading-none">
+        Update Task
       </h1>
 
       <form action="/projects/<%= task.project %>/tasks/<%= task._id %>?_method=PUT" method="post" class="space-y-6">
         <div>
           <label for="title" class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Task
             Title</label>
-          <input type="text" id="title" name="task[title]"
+          <input type="text" id="title" name="task[title]" value="<%= task.title %>" required
             class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm placeholder:text-neo-ink-light focus:outline-none focus:bg-neo-surface rounded-none transition-colors"
-            placeholder="e.g. Fix login bug" value="<%= task.title %>" required />
+            placeholder="e.g. Fix login bug" />
         </div>
 
         <div>
@@ -34,7 +35,7 @@
             placeholder="What needs to be done?"><%= task.description %></textarea>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Status</label>
             <select name="task[status]"
@@ -44,6 +45,7 @@
               <option value="done" <%=task.status==='done' ? 'selected' : '' %>>Done</option>
             </select>
           </div>
+
           <div>
             <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Priority</label>
             <select name="task[priority]"
@@ -53,24 +55,28 @@
               <option value="high" <%=task.priority==='high' ? 'selected' : '' %>>High</option>
             </select>
           </div>
+
           <div>
             <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Due Date</label>
             <input type="date" name="task[dueDate]"
               value="<%= task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '' %>"
               class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
           </div>
+
           <div>
             <label class="block mb-2 text-sm font-bold uppercase tracking-wide text-neo-ink">Assignee</label>
             <select name="task[assignedTo]"
               class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-sm font-medium block w-full px-4 py-3 shadow-neo-sm focus:outline-none focus:bg-neo-surface rounded-none transition-colors">
               <option value="">Unassigned</option>
               <option value="<%= project.owner._id %>" <%=task.assignedTo &&
-                task.assignedTo._id.equals(project.owner._id) ? 'selected' : '' %>><%= project.owner.username %> (Owner)
+                task.assignedTo._id.equals(project.owner._id) ? 'selected' : '' %>>
+                <%= project.owner.username %> (Owner)
               </option>
               <% if (project.members && project.members.length> 0) { %>
                 <% for (let member of project.members) { %>
                   <option value="<%= member._id %>" <%=task.assignedTo && task.assignedTo._id.equals(member._id)
-                    ? 'selected' : '' %>><%= member.username %>
+                    ? 'selected' : '' %>>
+                    <%= member.username %>
                   </option>
                   <% } %>
                     <% } %>
@@ -80,8 +86,13 @@
 
         <div class="pt-4">
           <button type="submit"
-            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full">Update
-            Task</button>
+            class="inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-sm px-6 py-3 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none w-full">
+            Update Task
+            <svg class="w-4 h-4 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="square" stroke-width="3" d="M5 12h14m-4-4-4 4m4 4-4-4" />
+            </svg>
+          </button>
         </div>
       </form>
     </div>

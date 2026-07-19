@@ -1,4 +1,5 @@
-<% if (success && success.length> 0) { %> <% for (let msg of success) { %>
+<% if (typeof success !=='undefined' && success.length> 0) { %>
+  <% for (let msg of success) { %>
     <div
       class="flex items-center p-4 mb-4 text-sm font-bold uppercase tracking-wide text-neo-ink bg-neo-success border-2 border-neo-ink shadow-neo-sm rounded-none"
       role="alert">
@@ -12,7 +13,7 @@
       </div>
       <button type="button"
         class="ms-auto bg-neo-surface border-2 border-neo-ink shadow-neo-sm inline-flex items-center justify-center h-8 w-8 shrink-0 rounded-none transition-all hover:bg-neo-warning active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
-        onclick="this.parentElement.remove()" aria-label="Close">
+        aria-label="Close">
         <span class="sr-only">Close</span>
         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
           viewBox="0 0 24 24">
@@ -22,7 +23,9 @@
     </div>
     <% } %>
       <% } %>
-        <% if (error && error.length> 0) { %> <% for (let msg of error) { %>
+
+        <% if (typeof error !=='undefined' && error.length> 0) { %>
+          <% for (let msg of error) { %>
             <div
               class="flex items-center p-4 mb-4 text-sm font-bold uppercase tracking-wide text-neo-ink bg-neo-danger border-2 border-neo-ink shadow-neo-sm rounded-none"
               role="alert">
@@ -36,7 +39,7 @@
               </div>
               <button type="button"
                 class="ms-auto bg-neo-surface border-2 border-neo-ink shadow-neo-sm inline-flex items-center justify-center h-8 w-8 shrink-0 rounded-none transition-all hover:bg-neo-warning active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
-                onclick="this.parentElement.remove()" aria-label="Close">
+                aria-label="Close">
                 <span class="sr-only">Close</span>
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   fill="none" viewBox="0 0 24 24">

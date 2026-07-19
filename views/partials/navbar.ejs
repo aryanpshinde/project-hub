@@ -1,15 +1,15 @@
-<nav class="bg-neo-surface w-full border-b-2 border-neo-ink">
+<nav class="bg-neo-surface w-full border-b-2 border-neo-ink sticky top-0 z-50">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <a href="/" class="flex items-center space-x-3">
       <div
         class="w-10 h-10 bg-neo-primary border-2 border-neo-ink shadow-neo-sm flex items-center justify-center text-white font-black text-xl rounded-none">
-        P
-      </div>
+        P</div>
       <span
         class="self-center text-2xl text-neo-ink font-black uppercase tracking-tight whitespace-nowrap">ProjectHub</span>
     </a>
+
     <div class="flex items-center md:order-2 space-x-3 md:space-x-0">
-      <% if (currentUser) { %>
+      <% if (typeof currentUser !=='undefined' && currentUser) { %>
         <button type="button"
           class="flex text-sm bg-neo-surface border-2 border-neo-ink shadow-neo-sm rounded-none md:me-0 focus:ring-4 focus:ring-neo-primary overflow-hidden active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all"
           id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
@@ -19,45 +19,40 @@
             src="<%= currentUser.avatar && currentUser.avatar.fileId !== 'default-avatar' ? currentUser.avatar.url : 'https://ui-avatars.com/api/?name=' + currentUser.username + '&background=2563eb&color=fff&bold=true&size=128' %>"
             alt="user photo" />
         </button>
-        <div class="z-50 hidden absolute mt-2 bg-neo-surface border-2 border-neo-ink shadow-neo w-48 rounded-none"
+        <div
+          class="z-50 hidden absolute mt-2 right-4 md:right-auto bg-neo-surface border-2 border-neo-ink shadow-neo w-48 rounded-none"
           id="user-dropdown">
           <div class="px-4 py-3 text-sm border-b-2 border-neo-ink bg-neo-bg">
             <span class="block text-neo-ink font-bold">
               <%= currentUser.username %>
             </span>
-            <span class="block text-neo-ink-light truncate">
+            <span class="block text-neo-ink-light truncate text-xs">
               <%= currentUser.email %>
             </span>
           </div>
           <ul class="p-2 text-sm text-neo-ink font-bold uppercase" aria-labelledby="user-menu-button">
-            <li>
-              <a href="/dashboard"
+            <li><a href="/dashboard"
                 class="flex items-center w-full p-2 hover:bg-neo-warning hover:text-neo-ink rounded-none transition-colors">Dashboard</a>
             </li>
-            <li>
-              <a href="/profile"
+            <li><a href="/profile"
                 class="flex items-center w-full p-2 hover:bg-neo-warning hover:text-neo-ink rounded-none transition-colors">Profile</a>
             </li>
             <li>
               <form action="/logout" method="POST" class="w-full">
                 <button type="submit"
-                  class="flex items-center w-full p-2 hover:bg-neo-danger hover:text-neo-ink rounded-none transition-colors text-left cursor-pointer">
-                  Sign out
-                </button>
+                  class="flex items-center w-full p-2 hover:bg-neo-danger hover:text-neo-ink rounded-none transition-colors text-left cursor-pointer">Sign
+                  out</button>
               </form>
             </li>
           </ul>
         </div>
         <% } else { %>
           <a href="/login"
-            class="hidden sm:inline-flex items-center justify-center bg-neo-surface text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-warning active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
-            Login
-          </a>
+            class="hidden sm:inline-flex items-center justify-center bg-neo-surface text-neo-ink border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-warning active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">Login</a>
           <a href="/register"
-            class="hidden sm:inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">
-            Register
-          </a>
+            class="hidden sm:inline-flex items-center justify-center bg-neo-primary text-white border-2 border-neo-ink shadow-neo-sm font-black uppercase tracking-wide text-xs px-4 py-2 rounded-none transition-all hover:bg-neo-primary-hover active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none">Register</a>
           <% } %>
+
             <button data-collapse-toggle="navbar-user" type="button"
               class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-neo-ink bg-neo-surface border-2 border-neo-ink shadow-neo-sm rounded-none md:hidden hover:bg-neo-bg focus:outline-none focus:ring-2 focus:ring-neo-primary active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none transition-all"
               aria-controls="navbar-user" aria-expanded="false">
@@ -68,36 +63,33 @@
               </svg>
             </button>
     </div>
+
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
       <ul
         class="font-black uppercase text-sm tracking-wide flex flex-col p-0 mt-4 border-2 border-neo-ink shadow-neo bg-neo-surface md:flex-row md:space-x-4 md:mt-0 md:border-0 md:shadow-none md:bg-transparent rounded-none overflow-hidden">
-        <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
-          <a href="/"
-            class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:border-2 md:border-neo-ink md:bg-neo-primary md:text-white md:shadow-neo-sm md:hover:bg-neo-primary-hover md:active:translate-x-0.5 md:active:translate-y-0.5 md:active:shadow-neo-none transition-all rounded-none"
-            aria-current="page">Home</a>
-        </li>
-        <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
-          <a href="/projects"
-            class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">Projects</a>
-        </li>
-        <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
-          <a href="#"
-            class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">About</a>
-        </li>
-        <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
-          <a href="#"
-            class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">Contact</a>
-        </li>
-        <% if (!currentUser) { %>
-          <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
-            <a href="/login"
-              class="block py-3 px-4 text-neo-ink hover:bg-neo-warning transition-colors rounded-none">Login</a>
+        <% if (typeof currentUser !=='undefined' && currentUser) { %>
+          <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
+            <a href="/dashboard"
+              class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">Dashboard</a>
           </li>
-          <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
-            <a href="/register"
-              class="block py-3 px-4 text-neo-ink hover:bg-neo-warning transition-colors rounded-none">Register</a>
+          <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
+            <a href="/projects"
+              class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">Projects</a>
           </li>
-          <% } %>
+          <% } else { %>
+            <li class="border-b-2 border-neo-ink last:border-b-0 md:border-b-0">
+              <a href="/"
+                class="block py-3 px-4 text-neo-ink hover:bg-neo-warning md:py-2 md:px-3 md:hover:bg-neo-warning transition-colors rounded-none">Home</a>
+            </li>
+            <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
+              <a href="/login"
+                class="block py-3 px-4 text-neo-ink hover:bg-neo-warning transition-colors rounded-none">Login</a>
+            </li>
+            <li class="border-b-2 border-neo-ink last:border-b-0 md:hidden">
+              <a href="/register"
+                class="block py-3 px-4 text-neo-ink hover:bg-neo-warning transition-colors rounded-none">Register</a>
+            </li>
+            <% } %>
       </ul>
     </div>
   </div>
