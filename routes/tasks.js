@@ -8,6 +8,7 @@ const {
   isTaskEditor,
   validateTask,
   validateTaskStatus,
+  isValidAssignee,
 } = require("../middleware");
 
 router.post(
@@ -15,8 +16,10 @@ router.post(
   isLoggedIn,
   isProjectParticipant,
   validateTask,
+  isValidAssignee,
   tasks.createTask,
 );
+
 router.get(
   "/:taskId/edit",
   isLoggedIn,
@@ -24,6 +27,7 @@ router.get(
   isTaskEditor,
   tasks.renderEditForm,
 );
+
 router.patch(
   "/:taskId/status",
   isLoggedIn,
@@ -32,6 +36,7 @@ router.patch(
   validateTaskStatus,
   tasks.updateTaskStatus,
 );
+
 router.use("/:taskId/comments", commentRoutes);
 
 router
@@ -42,6 +47,7 @@ router
     isProjectParticipant,
     isTaskEditor,
     validateTask,
+    isValidAssignee,
     tasks.updateTask,
   )
   .delete(isLoggedIn, isProjectParticipant, isTaskEditor, tasks.deleteTask);

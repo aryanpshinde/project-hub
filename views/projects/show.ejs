@@ -8,7 +8,6 @@
       </svg>
       Back to projects
     </a>
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="lg:col-span-1 space-y-6">
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
@@ -41,7 +40,7 @@
                 </svg>
               </a>
               <form action="/projects/<%= project._id %>?_method=DELETE" method="POST"
-                onsubmit="return confirm('Delete this project?');">
+                data-confirm="Delete this project?">
                 <button type="submit"
                   class="w-9 h-9 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-red-200 text-red-600 hover:text-red-800 transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
                   title="Delete Project">
@@ -54,7 +53,6 @@
             </div>
             <% } %>
         </div>
-
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none">
           <div class="inline-block bg-neo-primary border-2 border-neo-ink shadow-neo-sm px-3 py-1 mb-4 rounded-none">
             <span class="text-xs font-black uppercase tracking-widest text-white">Team</span>
@@ -85,7 +83,7 @@
                   </div>
                   <% if (project.owner._id.equals(currentUser._id)) { %>
                     <form action="/projects/<%= project._id %>/members/<%= member._id %>?_method=DELETE" method="POST"
-                      onsubmit="return confirm('Remove?');">
+                      data-confirm="Remove this member?">
                       <button type="submit"
                         class="w-7 h-7 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-red-200 text-red-600 hover:text-red-800 transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none"
                         title="Remove member">
@@ -111,7 +109,6 @@
             <% } %>
         </div>
       </div>
-
       <div class="lg:col-span-2">
         <div class="bg-neo-surface p-6 border-2 border-neo-ink shadow-neo rounded-none min-h-[500px]">
           <div class="flex items-center justify-between mb-6">
@@ -122,7 +119,6 @@
               <%= tasks ? tasks.length : 0 %> Total
             </span>
           </div>
-
           <form method="GET" action="/projects/<%= project._id %>"
             class="mb-6 p-4 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none grid grid-cols-2 md:grid-cols-5 gap-3 items-end">
             <div class="col-span-2 md:col-span-1">
@@ -186,7 +182,6 @@
               </a>
             </div>
           </form>
-
           <form action="/projects/<%= project._id %>/tasks" method="POST"
             class="mb-6 p-4 bg-neo-bg border-2 border-dashed border-neo-ink/30 rounded-none grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="md:col-span-2">
@@ -227,7 +222,6 @@
                 Add Task</button>
             </div>
           </form>
-
           <div class="space-y-3">
             <% if (tasks && tasks.length> 0) { %>
               <% for (let task of tasks) { %>
@@ -277,13 +271,12 @@
                                 <% } %>
                       </div>
                     </div>
-
                     <div class="flex items-center gap-2 shrink-0">
                       <% if (task.createdBy._id.equals(currentUser._id) || project.owner._id.equals(currentUser._id) ||
                         (task.assignedTo && task.assignedTo._id.equals(currentUser._id))) { %>
                         <form action="/projects/<%= project._id %>/tasks/<%= task._id %>/status?_method=PATCH"
                           method="POST">
-                          <select name="task[status]" onchange="this.form.submit()"
+                          <select name="task[status]" data-auto-submit
                             class="bg-neo-bg border-2 border-neo-ink text-neo-ink text-[10px] font-bold uppercase px-2 py-1.5 shadow-neo-sm focus:outline-none rounded-none cursor-pointer h-8">
                             <option value="todo" <%=task.status==='todo' ? 'selected' : '' %>>Todo</option>
                             <option value="in-progress" <%=task.status==='in-progress' ? 'selected' : '' %>>Prog
@@ -300,7 +293,7 @@
                           </svg>
                         </a>
                         <form action="/projects/<%= project._id %>/tasks/<%= task._id %>?_method=DELETE" method="POST"
-                          onsubmit="return confirm('Delete?');">
+                          data-confirm="Delete this task?">
                           <button type="submit"
                             class="w-8 h-8 flex items-center justify-center border-2 border-neo-ink bg-neo-surface shadow-neo-sm hover:bg-red-200 text-red-600 hover:text-red-800 transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-neo-none rounded-none"
                             title="Delete Task">

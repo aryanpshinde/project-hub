@@ -174,3 +174,28 @@ module.exports.isCommentAuthorOrProjectOwner = async (req, res, next) => {
 
   next();
 };
+
+module.exports.isValidAssignee = async (req, res, next) => {
+  const { id } = req.params;
+  const assignedTo = req.body.task && req.body.task.assignedTo;
+
+  if (!assignedTo) return next();
+
+  const project = await Project.findById(id);
+  if (!project) {
+    req.flash("error", "Project not found!");
+    return res.redirect("/projects");
+  }
+
+  const isOwner = project.owner.equals(assignedTo);
+  const isMember = project.members.some((memberId) =>
+    memberId.equals(assignedTo),
+  );
+
+  if (!isOwner && !isMember) {
+    req.flash("error", "Assignee must be a project member!");
+    return res.redirect(`/projects/${id}`);
+  }
+
+  next();
+};
